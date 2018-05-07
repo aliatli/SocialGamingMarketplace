@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <style>
+    .panel-default {
+      border: 1px solid black;
+    }
+    .container-fluid {
+      margin-top: 25px;
+    }
+
+    </style>
+
+    <title>Register or Login</title>
+  </head>
+
+  <!--
+    Do not forget to add Python later!
+  -->
+
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1"></div>
+
+        <div class="col-md-10">
+          <div class="panel panel-default">
+          <p class="text-center" style="font-size:300%">Social Gaming Market Place</p>
+          </div>
+        </div>
+
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+    <div class="container-fluid h-100">
+      <div class="row h-100 justify-content-center align-items-center">
+        <!-- Login -->
+
+        <!-- Variables
+        email_or_username
+        password_login
+        -->
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <p class="text-center" style="font-size:150%">Login</p>
+            <div class="form-group required">
+              <label for="email_or_username" class="col-md-12 col-form-label" style="font-size:120%">E-mail or Username:</label>
+              <div class="col-md-12">
+                <input class="form-control" style="font-size:90%" type="text" value="" id="email_or_username" maxlength="32" placeholder="E-mail or Username">
+              </div>
+            </div>
+
+            <div class="form-group required">
+              <label for="password_login" class="col-md-12 col-form-label" style="font-size:120%">Password:</label>
+              <div class="col-md-12">
+                <input class="form-control" style="font-size:90%" type="password" value="" id="password_login" maxlength="16" placeholder="Password">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-12">
+                <button type="login" class="btn btn-primary">Login</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2"></div>
+          <!-- Registration -->
+          <!-- Variables
+            email
+            username
+            firstname
+            lastname
+            password_register
+            password_again
+            date_of_birth
+          -->
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <p class="text-center" style="font-size:150%">Registration</p>
+            <div class="form-group required">
+              <label for="email" class="col-md-12 col-form-label" style="font-size:120%">E-mail:</label>
+              <div class="col-md-12">
+                <input class="form-control" style="font-size:90%" type="text" value="" id="email" maxlength="32" placeholder="E-mail" >
+              </div>
+            </div>
+
+            <div class="form-group required">
+              <label for="username" class="col-md-12 col-form-label" style="font-size:120%">Username:</label>
+              <div class="col-md-12">
+                <input class="form-control" style="font-size:90%" type="text" value="" id="username" maxlength="16" placeholder="Username" >
+              </div>
+            </div>
+
+            <div class="form-group required">
+              <label for="firstname" class="col-md-12 col-form-label" style="font-size:120%">First Name:</label>
+              <div class="col-md-12">
+                <input class="form-control" style="font-size:90%" type="text" value="" id="firstname" maxlength="16" placeholder="First Name" >
+              </div>
+            </div>
+
+            <div class="form-group required">
+              <label for="lastname" class="col-md-12 col-form-label" style="font-size:120%">Last Name:</label>
+              <div class="col-md-12">
+                <input class="form-control" style="font-size:90%" type="text" value="" id="lastname" maxlength="16" placeholder="Last Name" >
+              </div>
+            </div>
+
+            <div class="form-group required">
+              <label for="password_register" class="col-md-12 col-form-label" style="font-size:120%">Password:</label>
+              <div class="col-md-12">
+                <input class="form-control" style="font-size:90%" type="password" value="" id="password_register" maxlength="16" placeholder="Password">
+              </div>
+            </div>
+
+            <div class="form-group required">
+              <label for="password_again" class="col-md-12 col-form-label" style="font-size:120%">Password (Again):</label>
+              <div class="col-md-12">
+                <input class="form-control" style="font-size:90%" type="password" value="" id="password_again" maxlength="16" placeholder="Password (Again)">
+              </div>
+            </div>
+
+            <div class="form-group required">
+              <label for="date_of_birth" class="col-md-12 col-form-label" style="font-size:120%">Date of Birth:</label>
+              <div class="col-md-12">
+                <input class="form-control" style="font-size:90%" type="date" value="" id="date_of_birth">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">Register</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  </body>
+</html>
