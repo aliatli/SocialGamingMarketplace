@@ -7,4 +7,5 @@
 	The system will keep track of the players’ recent activities, their achievements, in-game inventories and list of games along with their genre to let the users to search for games specific to their wishes. 
 	Users are also able to search other users who share the same gaming interests.
 	The platform allows users to rate and review the games so that when a different user browses them, they will have an opinion about the game-play.
-	Users are allowed to add the games to their wish lists so that when a discount opportunity occurs they are notified. The users may block and/or unblock other users if they deem it necessary.
+	Users are allowed to add the games to their wish lists.
+	The users may block and/or unblock other users if they deem it necessary.
