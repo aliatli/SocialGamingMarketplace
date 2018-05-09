@@ -13,43 +13,44 @@ if(isset($_POST['register'])){
   //Check the correctness of input
   //Check for empty fields
   if(empty($email) || empty($username) || empty($firstname) || empty($lastname) || empty($password_register) || empty($password_again) || empty($date_of_birth)){
-    header("Location: ../register_login.php?error_empty");
+    header("Location: ../~$dbusername/register_login.php?error_empty");
     exit();
   }
   else{
     //Check for validness
     if(strlen($date_of_birth) !== 10){
-      header("Location: ../register_login.php?error_invalid_date");
+      header("Location: ../~ulas.is/register_login.php?error_invalid_date");
       exit();
     }
     else if($password_register !== $password_again){
-      header("Location: ../register_login.php?error_passwords_not_match");
+      header("Location: ../~ulas.is/register_login.php?error_passwords_not_match");
       exit();
     }
     else{
-      //Check if e_maiil is valid
+      //Check if e_mail is valid
       if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-        header("Location: ../register_login.php?error_invalid_email");
+        header("Location: ../~ulas.is/register_login.php?error_invalid_email");
         exit();
       }
       else{
-        $sql_compare = "SELECT * FROM user WHERE UserName = '$username' OR Email = '$email'";
+        $sql_compare = "SELECT * FROM User WHERE UserName = '$username' OR Email = '$email'";
         $result = mysqli_query($conn, $sql_compare);
         $result_check = mysqli_num_rows($result);
 
-        if($result_check !== 0){
-          header("Location: ../register_login.php?error_user_taken");
+        if($result_check < 0){
+          header("Location: ../~ulas.is/register_login.php?error_user_taken");
           exit();
         }
         else {
           date_default_timezone_set('Europe/Istanbul');
           $date_of_birth_convention = strtotime($date_of_birth);
           $hashed_password = password_hash($password_register, PASSWORD_DEFAULT);
-          
-          $sql_insert = "";
+
+          $sql_insert = "INSERT INTO User (FirstName, LastName, UserName, Email, DateOfBirth, Balance, CardNo, Cvv, BillingAddress) VALUES ('$firstname', '$lastname', '$username', '$email', '$date_of_birth_convetion', '0', '', '', '');"\
+;
           mysqli_query($conn, $sql_insert);
 
-          header("Location: ../store.php");
+          header("Location: ../~ulas.is/store.php");
           exit();
         }
       }
@@ -57,7 +58,7 @@ if(isset($_POST['register'])){
   }
 }
 else{
-  header("Location: ../register_login.php");
+  header("Location: ../~ulas.is/register_login.php");
   exit();
 }
 ?>
