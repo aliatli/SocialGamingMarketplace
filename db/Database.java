@@ -37,7 +37,7 @@ public class Database{
 					+ "LastName VARCHAR(16) NOT NULL,"
 					+ "UserName VARCHAR(16) NOT NULL UNIQUE,"
 					+ "Email VARCHAR(32) NOT NULL UNIQUE,"
-					+ "Password VARCHAR(16) NOT NULL,"
+					+ "Password VARCHAR(256) NOT NULL,"
 					+ "DateOfBirth DATE NOT NULL,"
 					+ "Balance NUMERIC(8,2) DEFAULT 0 NOT NULL,"
 					+ "CardNo BIGINT,"
