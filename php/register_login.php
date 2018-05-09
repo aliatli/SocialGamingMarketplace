@@ -115,7 +115,7 @@ session_start();
 
               <label for="date_of_birth" class="col-sm-12 col-form-label" style="font-size:120%">Date of Birth:</label>
               <div class="col-sm-12">
-                <input class="form-control" style="font-size:90%" type="text" value="" id="date_of_birth" name="date_of_birth" onkeyup="date_of_birth_func()" maxlength="10" placeholder="MM/DD/YYYY">
+                <input class="form-control" style="font-size:90%" type="text" value="" id="date_of_birth" name="date_of_birth" onkeyup="date_of_birth_func()" maxlength="10" placeholder="YYYY-MM-DD">
               </div>
 
               <div class="col-sm-12 text-center">
@@ -167,24 +167,24 @@ session_start();
       var date_of_birth_value = document.getElementById("date_of_birth").value;
       var new_date_of_birth_value = date_of_birth_value.replace(/\s+/g, '').replace(/[^0-9\ ]+/g, '');
 
-      if(new_date_of_birth_value.length > 2){
-        new_date_of_birth_value = new_date_of_birth_value.substring(0, 2) + "/" + new_date_of_birth_value.substring(2, new_date_of_birth_value.length);
+      if(new_date_of_birth_value.length > 4){
+        new_date_of_birth_value = new_date_of_birth_value.substring(0, 4) + "-" + new_date_of_birth_value.substring(4, new_date_of_birth_value.length);
       }
 
-      if(new_date_of_birth_value.length > 5){
-        new_date_of_birth_value = new_date_of_birth_value.substring(0, 5) + "/" + new_date_of_birth_value.substring(5, new_date_of_birth_value.length);
+      if(new_date_of_birth_value.length > 7){
+        new_date_of_birth_value = new_date_of_birth_value.substring(0, 7) + "-" + new_date_of_birth_value.substring(7, new_date_of_birth_value.length);
       }
 
       if(new_date_of_birth_value.length > 10){
         new_date_of_birth_value = new_date_of_birth_value.substring(0,10);
       }
 
-      if(new_date_of_birth_value.substring(0, 2) > 12){
-        new_date_of_birth_value = "12" + new_date_of_birth_value.substring(2, new_date_of_birth_value.length)
+      if(new_date_of_birth_value.substring(5, 7) > 12){
+        new_date_of_birth_value = new_date_of_birth_value.substring(0, 5) + "12" + new_date_of_birth_value.substring(7, new_date_of_birth_value.length);
       }
 
-      if(new_date_of_birth_value.substring(3, 5) > 31){
-        new_date_of_birth_value = new_date_of_birth_value.substring(0, 3) + "31" + new_date_of_birth_value.substring(5, new_date_of_birth_value.length)
+      if(new_date_of_birth_value.substring(8, 10) > 31){
+        new_date_of_birth_value = new_date_of_birth_value.substring(0, 8) + "31";
       }
 
       document.getElementById("date_of_birth").value = new_date_of_birth_value;
