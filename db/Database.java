@@ -32,7 +32,7 @@ public class Database{
 			//create new tables
 			String sql;
 			sql = "CREATE TABLE IF NOT EXISTS User"
-					+ "(UserID INT NOT NULL,"
+					+ "(UserID INT NOT NULL AUTO_INCREMENT,"
 					+ "FirstName VARCHAR(16) NOT NULL,"
 					+ "LastName VARCHAR(16) NOT NULL,"
 					+ "UserName VARCHAR(16) NOT NULL UNIQUE,"
