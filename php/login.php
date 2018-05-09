@@ -12,43 +12,25 @@ if(isset($_POST['login'])){
     exit();
   }
   else{
-    $sql_compare_username = "SELECT * FROM User WHERE UserName = '$email_or_username' AND Password = '$password_login'";
-    $result_username = mysqli_query($conn, $sql_compare_username);
-    $result_check_username = mysqli_num_rows($result_username);
+    $sql_compare = "SELECT * FROM User WHERE UserName = '$email_or_username' OR Email = '$email_or_username';";
+    $result = mysqli_query($conn, $sql_compare);
+    $result_check = mysqli_num_rows($result);
 
-    $sql_compare_email = "SELECT * FROM User WHERE Email = '$email_or_username' AND Password = '$password_login'";
-    $result_email = mysqli_query($conn, $sql_compare_email);
-    $result_check_email = mysqli_num_rows($result_email);
-
-    if($result_check_username === 0 && $result_check_email === 0){
-      header("Location: ../~ulas.is/register_login.php?error_unvalid_username_or_password");
+    if($result_check == 0){
+      header("Location: ../~ulas.is/register_login.php?error_invalid_username");
       exit();
     }
-    else if($result_check_username !== 0){
-      if($row_username = mysqli_fetch_assoc($result_username)){
-        $hashed_password_check_1 = password_verify($password_login, $row_username['PASSWORD']);
-        if($hashed_password_check_1 === FALSE){
-          header("Location: ../~ulas.is/register_login.php?error_login");
+    else{
+      if($row = mysqli_fetch_assoc($result)){
+        $hashed_password_check = password_verify($password_login, $row["Password"]);
+
+        if($hashed_password_check == False){
+          header("Location: ../~ulas.is/register_login.php?error_invalid_password");
           exit();
         }
-        else if($hashed_password_check_1 === TRUE){
+        else if($hashed_password_check == True){
           //login
-          $_SESSION['UserID'] = $row_username['UserID'];
-          header("Location: ../~ulas.is/store.php?");
-          exit();
-        }
-      }
-    }
-    else if($result_check_email !== 0){
-      if($row_email = mysqli_fetch_assoc($result_email)){
-        $hashed_password_check_2 = password_verify($password_login, $row_email['PASSWORD']);
-        if($hashed_password_check_2 === FALSE){
-          header("Location: ../~ulas.is/register_login.php?error_login");
-          exit();
-        }
-        else if($hashed_password_check_2 === TRUE){
-          //login
-          $_SESSION['UserID'] = $row_email['UserID'];
+          $_SESSION['UserID'] = $row['UserID'];
           header("Location: ../~ulas.is/store.php?");
           exit();
         }
