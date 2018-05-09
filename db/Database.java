@@ -37,11 +37,12 @@ public class Database{
 					+ "LastName VARCHAR(16) NOT NULL,"
 					+ "UserName VARCHAR(16) NOT NULL UNIQUE,"
 					+ "Email VARCHAR(32) NOT NULL UNIQUE,"
+					+ "Password VARCHAR(16) NOT NULL,"
 					+ "DateOfBirth DATE NOT NULL,"
-					+ "Balance NUMERIC(8,2) NOT NULL,"
-					+ "CardNo BIGINT NOT NULL,"
-					+ "Cvv SMALLINT NOT NULL,"
-					+ "BillingAdress VARCHAR(128) NOT NULL,"
+					+ "Balance NUMERIC(8,2) DEFAULT 0 NOT NULL,"
+					+ "CardNo BIGINT,"
+					+ "Cvv SMALLINT,"
+					+ "BillingAdress VARCHAR(128),"
 					+ "PRIMARY KEY (UserID)) ENGINE=innodb;";
 			stmt.executeUpdate(sql);
 			System.out.println("Created table User in the database");
