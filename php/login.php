@@ -31,7 +31,7 @@ if(isset($_POST['login'])){
         else if($hashed_password_check == True){
           //login
           $_SESSION['UserID'] = $row['UserID'];
-          header("Location: ../~ulas.is/store.php?");
+          header("Location: ../~ulas.is/store.php");
           exit();
         }
       }
