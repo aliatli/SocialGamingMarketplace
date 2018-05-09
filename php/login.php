@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-if(isset($_POST['register'])){
+if(isset($_POST['login'])){
   include_once 'config.php';
 
   $email_or_username = mysqli_real_escape_string($conn, $_POST['email_or_username']);
   $password_login = mysqli_real_escape_string($conn, $_POST['password_login']);
 
   if(empty($email_or_username) || empty($password_login)){
-    header("Location: ../register_login.php?error_empty");
+    header("Location: ../~ulas.is/register_login.php?error_empty");
     exit();
   }
   else{
@@ -21,20 +21,20 @@ if(isset($_POST['register'])){
     $result_check_email = mysqli_num_rows($result_email);
 
     if($result_check_username === 0 && $result_check_email === 0){
-      header("Location: ../register_login.php?error_unvalid_username_or_password");
+      header("Location: ../~ulas.is/register_login.php?error_unvalid_username_or_password");
       exit();
     }
     else if($result_check_username !== 0){
       if($row_username = mysqli_fetch_assoc($result_username)){
         $hashed_password_check_1 = password_verify($password_login, $row_username['PASSWORD']);
         if($hashed_password_check_1 === FALSE){
-          header("Location: ../register_login.php?error_login");
+          header("Location: ../~ulas.is/register_login.php?error_login");
           exit();
         }
         else if($hashed_password_check_1 === TRUE){
           //login
           $_SESSION['UserID'] = $row_username['UserID'];
-          header("Location: ../store.php?");
+          header("Location: ../~ulas.is/store.php?");
           exit();
         }
       }
@@ -43,13 +43,13 @@ if(isset($_POST['register'])){
       if($row_email = mysqli_fetch_assoc($result_email)){
         $hashed_password_check_2 = password_verify($password_login, $row_email['PASSWORD']);
         if($hashed_password_check_2 === FALSE){
-          header("Location: ../register_login.php?error_login");
+          header("Location: ../~ulas.is/register_login.php?error_login");
           exit();
         }
         else if($hashed_password_check_2 === TRUE){
           //login
           $_SESSION['UserID'] = $row_email['UserID'];
-          header("Location: ../store.php?");
+          header("Location: ../~ulas.is/store.php?");
           exit();
         }
       }
@@ -57,7 +57,7 @@ if(isset($_POST['register'])){
   }
 }
 else{
-  header("Location: ../register_login.php");
+  header("Location: ../~ulas.is/register_login.php");
   exit();
 }
 ?>
