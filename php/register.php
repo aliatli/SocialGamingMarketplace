@@ -37,22 +37,21 @@ if(isset($_POST['register'])){
         $result = mysqli_query($conn, $sql_compare);
         $result_check = mysqli_num_rows($result);
 
-        if($result_check < 0){
+        if($result_check > 0){
           header("Location: ../~ulas.is/register_login.php?error_user_taken");
           exit();
         }
         else {
-          date_default_timezone_set('Europe/Istanbul');
-          $date_of_birth_convention = strtotime($date_of_birth);
           $hashed_password = password_hash($password_register, PASSWORD_DEFAULT);
 
-          $sql_insert = "INSERT INTO User (FirstName, LastName, UserName, Email, DateOfBirth, Balance, CardNo, Cvv, BillingAddress) VALUES ('$firstname', '$lastname', '$username', '$email', '$date_of_birth_convetion', '0', '', '', '');"\
-;
-          mysqli_query($conn, $sql_insert);
+          $date_convention =  date("Y-m-d H:i:s", strtotime($date_of_birth));
 
-          header("Location: ../~ulas.is/store.php");
-          exit();
+          $sql_insert = "INSERT INTO User (FirstName, LastName, UserName, Email, Password, DateOfBirth) VALUES ('$firstname', '$lastname', '$username', '$email', '$hashed_password', '$date_convention')";
+          mysqli_query($conn, $sql_insert);
         }
+
+        header("Location: ../~ulas.is/store.php");
+        exit();
       }
     }
   }
