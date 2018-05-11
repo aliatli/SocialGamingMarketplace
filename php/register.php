@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 if(isset($_POST['register'])){
   include_once 'config.php';
 
@@ -19,17 +21,17 @@ if(isset($_POST['register'])){
   else{
     //Check for validness
     if(strlen($date_of_birth) !== 10){
-      header("Location: ../~ulas.is/register_login.php?error_invalid_date");
+      header("Location: ../~$dbusername/register_login.php?error_invalid_date");
       exit();
     }
     else if($password_register !== $password_again){
-      header("Location: ../~ulas.is/register_login.php?error_passwords_not_match");
+      header("Location: ../~$dbusername/register_login.php?error_passwords_not_match");
       exit();
     }
     else{
       //Check if e_mail is valid
       if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-        header("Location: ../~ulas.is/register_login.php?error_invalid_email");
+        header("Location: ../~$dbusername/register_login.php?error_invalid_email");
         exit();
       }
       else{
@@ -38,7 +40,7 @@ if(isset($_POST['register'])){
         $result_check = mysqli_num_rows($result);
 
         if($result_check > 0){
-          header("Location: ../~ulas.is/register_login.php?error_user_taken");
+          header("Location: ../~$dbusername/register_login.php?error_user_taken");
           exit();
         }
         else {
@@ -47,17 +49,29 @@ if(isset($_POST['register'])){
           $date_convention =  date("Y-m-d H:i:s", strtotime($date_of_birth));
 
           $sql_insert = "INSERT INTO User (FirstName, LastName, UserName, Email, Password, DateOfBirth) VALUES ('$firstname', '$lastname', '$username', '$email', '$hashed_password', '$date_convention')";
-          mysqli_query($conn, $sql_insert);
-        }
+          $result_insert = mysqli_query($conn, $sql_insert);
 
-        header("Location: ../~ulas.is/store.php");
-        exit();
+          if($result_insert > 0){
+            $sql_getid = "SELECT UserID FROM User WHERE UserName = '$username' AND Email = '$email';";
+            $result_getid = mysqli_query($conn, $sql_getid);
+
+            if($row = mysqli_fetch_assoc($result_getid)){
+              $_SESSION['UserID'] = $row['UserID'];
+              header("Location: ../~$dbusername/store.php");
+              exit();
+            }
+          }
+          else{
+            header("Location: ../~$dbusername/register_login.php?error_mysql");
+            exit();
+          }
+        }
       }
     }
   }
 }
 else{
-  header("Location: ../~ulas.is/register_login.php");
+  header("Location: ../~$dbusername/register_login.php");
   exit();
 }
 ?>
