@@ -1,8 +1,9 @@
 <?php
 session_start();
-include_once 'config.php';
 
 if(isset($_POST['login'])){
+  include_once 'config.php';
+
   $email_or_username = mysqli_real_escape_string($conn, $_POST['email_or_username']);
   $password_login = mysqli_real_escape_string($conn, $_POST['password_login']);
 
@@ -20,8 +21,8 @@ if(isset($_POST['login'])){
       exit();
     }
     else{
-      if($row = mysqli_fetch_assoc($result)){
-        $hashed_password_check = password_verify($password_login, $row["Password"]);
+      if($row = mysqli_fetch_assoc($result)){  
+	$hashed_password_check = password_verify($password_login, $row["Password"]);
 
         if($hashed_password_check == False){
           header("Location: ../~$dbusername/register_login.php?error_invalid_password");
