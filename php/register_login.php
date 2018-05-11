@@ -48,7 +48,7 @@ session_start();
         password_login
         -->
         <div class="col-sm-3" style="min-width: 200px">
-          <form class="form" role="form" method="post" action="/~ulas.is/login.php">
+          <form class="form" role="form" method="post" action="/~<?php echo $dbusername ?>/login.php">
             <div class="panel panel-default">
               <p class="text-center" style="font-size:150%">Login</p>
               <label for="email_or_username" class="col-sm-12 col-form-label" style="font-size:120%">Username:</label>
@@ -80,7 +80,7 @@ session_start();
             date_of_birth
           -->
         <div class="col-sm-3" style="min-width: 200px">
-          <form class="form" method="post" action="/~ulas.is/register.php">
+          <form class="form" method="post" action="/~<?php echo $dbusername ?>/register.php">
             <div class="panel panel-default">
               <p class="text-center" style="font-size:150%">Registration</p>
               <label for="email" class="col-sm-12 col-form-label" style="font-size:120%">E-mail:</label>
