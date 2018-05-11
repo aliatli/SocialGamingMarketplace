@@ -1,8 +1,9 @@
 <?php
 session_start();
-include_once 'config.php';
 
 if(isset($_POST['register'])){
+  include_once 'config.php';
+
   $email = mysqli_real_escape_string($conn, $_POST['email']);
   $username = mysqli_real_escape_string($conn, $_POST['username']);
   $firstname = mysqli_real_escape_string($conn, $_POST['firstname']);
@@ -45,26 +46,26 @@ if(isset($_POST['register'])){
         else {
           $hashed_password = password_hash($password_register, PASSWORD_DEFAULT);
 
-          $date_convention =  date("Y-m-d H:i:s", strtotime($date_of_birth));
+	  $date_convention =  date("Y-m-d H:i:s", strtotime($date_of_birth));
 
           $sql_insert = "INSERT INTO User (FirstName, LastName, UserName, Email, Password, DateOfBirth) VALUES ('$firstname', '$lastname', '$username', '$email', '$hashed_password', '$date_convention')";
-          $result_insert = mysqli_query($conn, $sql_insert);
+	  $result_insert = mysqli_query($conn, $sql_insert);
 
-          if($result_insert > 0){
-            $sql_getid = "SELECT UserID FROM User WHERE UserName = '$username' AND Email = '$email';";
-            $result_getid = mysqli_query($conn, $sql_getid);
-
-            if($row = mysqli_fetch_assoc($result_getid)){
-              $_SESSION['UserID'] = $row['UserID'];
-              header("Location: ../~$dbusername/store.php");
-              exit();
-            }
-          }
-          else{
-            header("Location: ../~$dbusername/register_login.php?error_mysql");
+	  if($result_insert > 0){
+	    $sql_getid = "SELECT UserID FROM User WHERE UserName = '$username' AND Email = '$email';";
+	    $result_getid = mysqli_query($conn, $sql_getid);
+	    
+	    if($row = mysqli_fetch_assoc($result_getid)){
+	      $_SESSION['UserID'] = $row['UserID'];
+	      header("Location: ../~$dbusername/store.php");
+       	      exit();
+	    }
+	  }
+	  else{
+      	    header("Location: ../~$dbusername/register_login.php?error_mysql");
             exit();
-          }
-        }
+	  }
+	}
       }
     }
   }
