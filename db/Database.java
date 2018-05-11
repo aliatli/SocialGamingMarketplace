@@ -47,6 +47,29 @@ public class Database{
 			stmt.executeUpdate(sql);
 			System.out.println("Created table User in the database");
 			
+			sql = "CREATE TABLE IF NOT EXISTS Game"
+					+ "(GameID INT NOT NULL AUTO_INCREMENT,"
+					+ "Name VARCHAR(16) NOT NULL UNIQUE,"
+					+ "AgeRestriction TINYINT NOT NULL,"
+					+ "Price NUMERIC(8,2) NOT NULL,"
+					+ "Rating TINYINT,"
+					+ "NumberOfPlayers TINYINT NOT NULL,"
+					+ "SystemRequirements VARCHAR(256) NOT NULL,"
+					+ "Info VARCHAR(64) NOT NULL,"
+					+ "PRIMARY KEY (GameID)) ENGINE=innodb;";
+			stmt.executeUpdate(sql);
+			System.out.println("Created table Game in the database");
+			
+			sql = "CREATE TABLE IF NOT EXISTS Buy"
+					+ "(UserUserID INT NOT NULL,"
+					+ "GameGameID INT NOT NULL,"
+					+ "PRIMARY KEY(UserUserID, GameGameID),"
+					+ "CONSTRAINT UserUserID_b FOREIGN KEY(UserUserID) REFERENCES User(UserID) ON DELETE CASCADE ON UPDATE CASCADE,"
+					+ "CONSTRAINT GameGameID_b FOREIGN KEY(GameGameID) REFERENCES Game(GameID) ON DELETE CASCADE ON UPDATE CASCADE)"
+					+ "ENGINE=innodb;";
+			stmt.executeUpdate(sql);
+			System.out.println("Created table Buy in the database");
+			
 			sql = "CREATE TABLE IF NOT EXISTS FriendList"
 					+ "(UserUserID INT NOT NULL,"
 					+ "UserUserID2 INT NOT NULL,"
@@ -65,19 +88,6 @@ public class Database{
 			stmt.executeUpdate(sql);
 			System.out.println("Created table BlockList in the database");
 			
-			sql = "CREATE TABLE IF NOT EXISTS Game"
-					+ "(GameID INT NOT NULL,"
-					+ "Name VARCHAR(16) NOT NULL,"
-					+ "AgeRestriction TINYINT NOT NULL,"
-					+ "Price NUMERIC(8,2) NOT NULL,"
-					+ "Rating TINYINT NULL,"
-					+ "NumberOfPlayers TINYINT NOT NULL,"
-					+ "SystemRequirements VARCHAR(256) NOT NULL,"
-					+ "Info VARCHAR(64) NOT NULL,"
-					+ "PRIMARY KEY (GameID)) ENGINE=innodb;";
-			stmt.executeUpdate(sql);
-			System.out.println("Created table Game in the database");
-			
 			sql = "CREATE TABLE IF NOT EXISTS Write_Review"
 					+ "(UserUserID INT NOT NULL,"
 					+ "GameGameID INT NOT NULL,"
@@ -90,16 +100,6 @@ public class Database{
 					+ "ENGINE=innodb;";
 			stmt.executeUpdate(sql);
 			System.out.println("Created table Write_Review in the database");
-			
-			sql = "CREATE TABLE IF NOT EXISTS Buy"
-					+ "(UserUserID INT NOT NULL,"
-					+ "GameGameID INT NOT NULL,"
-					+ "PRIMARY KEY(UserUserID, GameGameID),"
-					+ "CONSTRAINT UserUserID_b FOREIGN KEY(UserUserID) REFERENCES User(UserID) ON DELETE CASCADE ON UPDATE CASCADE,"
-					+ "CONSTRAINT GameGameID_b FOREIGN KEY(GameGameID) REFERENCES Game(GameID) ON DELETE CASCADE ON UPDATE CASCADE)"
-					+ "ENGINE=innodb;";
-			stmt.executeUpdate(sql);
-			System.out.println("Created table Buy in the database");
 			
 			sql = "CREATE TABLE IF NOT EXISTS WishList"
 					+ "(UserUserID INT NOT NULL,"
