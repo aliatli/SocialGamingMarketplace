@@ -152,7 +152,7 @@ else{
             </div>
             <div class="col-md-3">
               <div class="panel panel-default" style="display: flex;justify-content: center;align-items: center">
-                <button type="button" class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/profile.php?<?php echo $userid ?>'">
+                <button type="button" class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/profile.php?user_no=<?php echo $user_id ?>'">
                   <p class="text" style="font-size:300%">Profile</p>
                 </button>
               </div>
