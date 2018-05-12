@@ -40,22 +40,37 @@ if(isset($_SESSION['UserID'])){
     $rec_info = $row['Info'];
   }
 
-  //Number of pages
-  $sql_page = "SELECT Name, Rating, Price FROM Game ORDER BY Rating DESC;";
+  if($_GET['content'] === best_rating){
+    $sql_page = "SELECT Name, Rating, Price FROM Game ORDER BY Rating DESC;";
+  }
+  else if($_GET['content'] === lowest_price){
+    $sql_page = "SELECT Name, Rating, Price FROM Game ORDER BY Price ASC;";
+  }
+  else if($_GET['content'] === title){
+    $sql_page = "SELECT Name, Rating, Price FROM Game ORDER BY Name ASC;";
+  }
+
   $result_page = mysqli_query($conn, $sql_page);
   $result_page_check = mysqli_num_rows($result_page);
-
   $result_per_page = 5;
   $number_of_pages = ceil($result_page_check / $result_per_page);
 
   if(!isset($_GET['page'])){
-    $page = 1;
-    header("Location: ../~$dbusername/store.php?page=1");
+    header("Location: ../~$dbusername/store.php?page=1&content=best_rating");
     exit();
   }
   else{
     $page = $_GET['page'];
   }
+
+  if(!isset($_GET['content'])){
+    header("Location: ../~$dbusername/store.php?page=1&");
+    exit();
+  }
+  else{
+    $page = $_GET['page'];
+  }
+
 
   if($page > $number_of_pages || $page < 1){
     header("Location: ../~$dbusername/store.php?page=1");
@@ -65,7 +80,16 @@ if(isset($_SESSION['UserID'])){
   //Display via pagination
   $starting_limit_index = ($page - 1) * 5;
 
-  $sql_rating = "SELECT Name, Rating, Price FROM Game ORDER BY Rating DESC LIMIT " . $starting_limit_index . ", 5;";
+  if($_GET['content'] === best_rating){
+    $sql_rating = "SELECT Name, Rating, Price FROM Game ORDER BY Rating DESC LIMIT " . $starting_limit_index . ", 5;";
+  }
+  else if($_GET['content'] === lowest_price){
+    $sql_rating = "SELECT Name, Rating, Price FROM Game ORDER BY Price ASC LIMIT " . $starting_limit_index . ", 5;";
+  }
+  else if($_GET['content'] === title){
+    $sql_rating = "SELECT Name, Rating, Price FROM Game ORDER BY Name ASC LIMIT " . $starting_limit_index . ", 5;";
+  }
+
   $result_rating = mysqli_query($conn, $sql_rating);
 
 }
@@ -234,16 +258,16 @@ else{
               </div>
             </div>
             <div class="col-md-3 button-wrapper btn">
-              <button type="button" class="btn btn-primary" style="margin-top: 0%">
+              <button type="button" class="btn btn-primary" style="margin-top: 0%" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?content=action'">
                 <p class="text-center" style="font-size:300%">Action</p>
               </button>
-              <button type="button" class="btn btn-primary">
+              <button type="button" class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?content=sport'">
                 <p class="text-center" style="font-size:300%">Sport</p>
               </button>
-              <button type="button" class="btn btn-primary">
+              <button type="button" class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?content=fps'">
                 <p class="text-center" style="font-size:300%">FPS</p>
               </button>
-              <button type="button" class="btn btn-primary">
+              <button type="button" class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?content=strategy'">
                 <p class="text-center" style="font-size:300%">Strategy</p>
               </button>
             </div>
@@ -260,7 +284,7 @@ else{
             <div class="row">
               <div class="col-md-3">
                 <div class="panel panel-default" style="display: flex-start;justify-content: center;align-items: center;">
-                  <button class="btn btn-primary" onclick="best_rating()">
+                  <button class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/store.php?page=<?php echo $_GET['page'] ?>&content=best_rating'">
                     <p class="text" style="font-size:100%">List By Rating</p>
                   </button>
                 </div>
@@ -268,7 +292,7 @@ else{
               <div class="col-md-1"></div>
               <div class="col-md-4">
                 <div class="panel panel-default" style="display: flex;justify-content: center;align-items: center">
-                  <button class="btn btn-primary" onclick="lowest_price()">
+                  <button class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/store.php?page=<?php echo $_GET['page'] ?>&content=lowest_price'">
                     <p class="text" style="font-size:100%">List By Lowest Price</p>
                   </button>
                 </div>
@@ -276,7 +300,7 @@ else{
               <div class="col-md-1"></div>
               <div class="col-md-3">
                 <div class="panel panel-default" style="display: flex-end;justify-content: center;align-items: center">
-                  <button class="btn btn-primary" onclick="asc_title();">
+                  <button class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/store.php?page=<?php echo $_GET['page'] ?>&content=title'">
                     <p class="text" style="font-size:100%">List By Title</p>
                   </button>
                 </div>
@@ -291,115 +315,245 @@ else{
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
+	  <?php
+	    if($_GET['content'] !== best_rating){
+	      $disabled = True;
+	    }
+	    else{
+	      $disabled = False;
+	    }
+	  ?>
+	  <div class="col-md-9" style="border: 1px solid black">
+	    <div class="row">
+	      <div class="col-md-4">
+	        <p class="text-left" style="font-size:200%">Name</p>
+	      </div>
+	      <div class="col-md-4">
+	        <p class="text-center" style="font-size:200%">Rating</p>
+	      </div>
+	      <div class="col-md-4">
+	        <p class="text-right" style="font-size:200%">Price</p>
+	      </div>
+	    </div>
+	  </div>
           <div id="best_rating">
-            <div class="col-md-9" style="border: 1px solid black">
-	      <?php
-		while($row = mysqli_fetch_assoc($result_rating)){
-	          echo '<div class="row">';
-		    echo '<div class="col-md-4">';
-		      echo '<p class="text-left" style="font-size:150%">';
-		      echo  $row['Name'];
+	    <?php
+	      if(!$disabled){
+                echo '<div class="col-md-9" style="border: 1px solid black">';
+		  while($row = mysqli_fetch_assoc($result_rating)){
+	            echo '<div class="row">';
+		      echo '<div class="col-md-4">';
+		        echo '<p class="text-left" style="font-size:150%">';
+		        echo  $row['Name'];
 		      echo '</p>';
-		    echo '</div>';
-		    echo '<div class="col-md-4">';
-		      echo '<p class="text-center" style="font-size:150%">';
-		      echo  $row['Rating'];
-		      echo '</p>';
-		    echo '</div>';
-		    echo '<div class="col-md-4">';
-		      echo '<p class="text-right" style="font-size:150%">';
-		      echo  $row['Price'];
-		      echo '</p>';
-		    echo '</div>';
-	          echo '</div>';
-		}
-		echo '<nav aria-label="Page navigation example">';
-		  echo '<ul class="pagination justify-content-center">';
-		    if($_GET['page'] <= 1){
-		      $disabled = " disabled";
-		    }
-		    else{
-		      $disabled = "";
-		    }
+		      echo '</div>';
+		      echo '<div class="col-md-4">';
+		        echo '<p class="text-center" style="font-size:150%">';
+		        echo  $row['Rating'];
+		        echo '</p>';
+		      echo '</div>';
+		      echo '<div class="col-md-4">';
+		        echo '<p class="text-right" style="font-size:150%">';
+		        echo  '$' . $row['Price'];
+		        echo '</p>';
+		      echo '</div>';
+	            echo '</div>';
+		  }
+		  echo '<nav aria-label="Page navigation example">';
+		    echo '<ul class="pagination justify-content-center">';
+		      if($_GET['page'] <= 1){
+		        $disabled = " disabled";
+		      }
 		    
-		    $page_pre = $page - 1;
-		    $page_post = $page + 1;
+		      $page_pre = $page - 1;
+		      $page_post = $page + 1;
 
-		    echo '<li class="page-item' . $disabled . '">';
-		      echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' . $page_pre . '">Previous</a>';
-		    echo '</li>';
-		    for($page = 1; $page <= $number_of_pages; $page++){
-		      if($page == $_GET['page']){
-			$disabled = " disabled";
+		      echo '<li class="page-item' . $disabled . '">';
+		        echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' . $page_pre . '&content=best_rating">Previous</a>';
+		      echo '</li>';
+		      for($page = 1; $page <= $number_of_pages; $page++){
+		        if($page == $_GET['page']){
+			  $disabled = " disabled";
+		        }
+		        else{
+			  $disabled = "";
+		        }
+
+		        echo '<li class="page-item' . $disabled . '">';
+		          echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' .$page . '&content=best_rating">' . $page . '</a>';
+		        echo '</li>';
+		      }
+
+		      if($_GET['page'] >= $number_of_pages){
+		        $disabled = " disabled";
 		      }
 		      else{
-			$disabled = "";
+		        $disabled = "";
 		      }
 
 		      echo '<li class="page-item' . $disabled . '">';
-		        echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' .$page . '">' . $page . '</a>';
+                        echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' . $page_post . '&content=best_rating">Next</a>';
 		      echo '</li>';
-		    }
-
-		    if($_GET['page'] >= $number_of_pages){
-		      $disabled = " disabled";
-		    }
-		    else{
-		      $disabled = "";
-		    }
-
-		    echo '<li class="page-item' . $disabled . '">';
-                      echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' . $page_post . '">Next</a>';
-		    echo '</li>';
-		  echo '</ul>';
-		echo '</nav>';
-	      ?>
-            </div>
+		    echo '</ul>';
+		  echo '</nav>';
+		echo '</dib>';
+	      }
+	    ?>
           </div>
 
-          <div id="lowest_price" style="display:none">
-            <div class="col-md-9" style="border: 1px solid black">
-              <p class="text" style="font-size:300%">SQL 2</p>
-            </div>
+	  <?php
+	    if($_GET['content'] !== lowest_price){
+	      $disabled = True;
+	    }
+	    else{
+	      $disabled = False;
+	    }
+
+	  ?>
+
+          <div id="lowest_price">
+	    <?php
+	      if(!$disabled){
+                echo '<div class="col-md-9" style="border: 1px solid black">';
+		  while($row = mysqli_fetch_assoc($result_rating)){
+	            echo '<div class="row">';
+		      echo '<div class="col-md-4">';
+		        echo '<p class="text-left" style="font-size:150%">';
+		        echo  $row['Name'];
+		      echo '</p>';
+		      echo '</div>';
+		      echo '<div class="col-md-4">';
+		        echo '<p class="text-center" style="font-size:150%">';
+		        echo  $row['Rating'];
+		        echo '</p>';
+		      echo '</div>';
+		      echo '<div class="col-md-4">';
+		        echo '<p class="text-right" style="font-size:150%">';
+		        echo  '$' . $row['Price'];
+		        echo '</p>';
+		      echo '</div>';
+	            echo '</div>';
+		  }
+		  echo '<nav aria-label="Page navigation example">';
+		    echo '<ul class="pagination justify-content-center">';
+		      if($_GET['page'] <= 1){
+		        $disabled = " disabled";
+		      }
+		    
+		      $page_pre = $page - 1;
+		      $page_post = $page + 1;
+
+		      echo '<li class="page-item' . $disabled . '">';
+		        echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' . $page_pre . '&content=lowest_price">Previous</a>';
+		      echo '</li>';
+		      for($page = 1; $page <= $number_of_pages; $page++){
+		        if($page == $_GET['page']){
+			  $disabled = " disabled";
+		        }
+		        else{
+			  $disabled = "";
+		        }
+
+		        echo '<li class="page-item' . $disabled . '">';
+		          echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' .$page . '&content=lowest_price">' . $page . '</a>';
+		        echo '</li>';
+		      }
+
+		      if($_GET['page'] >= $number_of_pages){
+		        $disabled = " disabled";
+		      }
+		      else{
+		        $disabled = "";
+		      }
+
+		      echo '<li class="page-item' . $disabled . '">';
+                        echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' . $page_post . '&content=lowest_price">Next</a>';
+		      echo '</li>';
+		    echo '</ul>';
+		  echo '</nav>';
+		echo '</dib>';
+	      }
+	    ?>
           </div>
 
-          <div id="asc_title" style="display:none">
-            <div class="col-md-9" style="border: 1px solid black">
-              <p class="text" style="font-size:300%">SQL 3</p>
-            </div>
+	  <?php
+	    if($_GET['content'] !== title){
+	      $disabled = True;
+	    }
+	    else{
+	      $disabled = False;
+	    }
+
+	  ?>
+
+          <div id="title">
+	    <?php
+	      if(!$disabled){
+                echo '<div class="col-md-9" style="border: 1px solid black">';
+		  while($row = mysqli_fetch_assoc($result_rating)){
+	            echo '<div class="row">';
+		      echo '<div class="col-md-4">';
+		        echo '<p class="text-left" style="font-size:150%">';
+		        echo  $row['Name'];
+		      echo '</p>';
+		      echo '</div>';
+		      echo '<div class="col-md-4">';
+		        echo '<p class="text-center" style="font-size:150%">';
+		        echo  $row['Rating'];
+		        echo '</p>';
+		      echo '</div>';
+		      echo '<div class="col-md-4">';
+		        echo '<p class="text-right" style="font-size:150%">';
+		        echo  '$' . $row['Price'];
+		        echo '</p>';
+		      echo '</div>';
+	            echo '</div>';
+		  }
+		  echo '<nav aria-label="Page navigation example">';
+		    echo '<ul class="pagination justify-content-center">';
+		      if($_GET['page'] <= 1){
+		        $disabled = " disabled";
+		      }
+		    
+		      $page_pre = $page - 1;
+		      $page_post = $page + 1;
+
+		      echo '<li class="page-item' . $disabled . '">';
+		        echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' . $page_pre . '&content=title">Previous</a>';
+		      echo '</li>';
+		      for($page = 1; $page <= $number_of_pages; $page++){
+		        if($page == $_GET['page']){
+			  $disabled = " disabled";
+		        }
+		        else{
+			  $disabled = "";
+		        }
+
+		        echo '<li class="page-item' . $disabled . '">';
+		          echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' .$page . '&content=title">' . $page . '</a>';
+		        echo '</li>';
+		      }
+
+		      if($_GET['page'] >= $number_of_pages){
+		        $disabled = " disabled";
+		      }
+		      else{
+		        $disabled = "";
+		      }
+
+		      echo '<li class="page-item' . $disabled . '">';
+                        echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' . $page_post . '&content=title">Next</a>';
+		      echo '</li>';
+		    echo '</ul>';
+		  echo '</nav>';
+		echo '</dib>';
+	      }
+	    ?>
           </div>
         </div>
         <div class="col-md-1"></div>
       </div>
     </div>
-
-    <!-- Optional JavaScript -->
-    <script language="JavaScript" type="text/javascript">
-    function best_rating(){
-      var best_rating = document.getElementById("best_rating");
-      var lowest_price = document.getElementById("lowest_price");
-      var asc_title = document.getElementById("asc_title");
-      best_rating.style.display = "block";
-      lowest_price.style.display = "none";
-      asc_title.style.display = "none";
-    }
-    function lowest_price(){
-      var best_rating = document.getElementById("best_rating");
-      var lowest_price = document.getElementById("lowest_price");
-      var asc_title = document.getElementById("asc_title");
-      best_rating.style.display = "none";
-      lowest_price.style.display = "block";
-      asc_title.style.display = "none";
-    }
-    function asc_title(){
-      var best_rating = document.getElementById("best_rating");
-      var lowest_price = document.getElementById("lowest_price");
-      var asc_title = document.getElementById("asc_title");
-      best_rating.style.display = "none";
-      lowest_price.style.display = "none";
-      asc_title.style.display = "block";
-    }
-    </script>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
