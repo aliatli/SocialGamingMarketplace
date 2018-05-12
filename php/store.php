@@ -60,17 +60,13 @@ if(isset($_SESSION['UserID'])){
     exit();
   }
   else{
-    $page = $_GET['page'];
+    if(!isset($_GET['content'])){
+      header("Location: ../~$dbusername/store.php?page=1&content=best_rating");
+      exit();
+    }
   }
 
-  if(!isset($_GET['content'])){
-    header("Location: ../~$dbusername/store.php?page=1&");
-    exit();
-  }
-  else{
-    $page = $_GET['page'];
-  }
-
+  $page = $_GET['page'];
 
   if($page > $number_of_pages || $page < 1){
     header("Location: ../~$dbusername/store.php?page=1");
@@ -258,16 +254,16 @@ else{
               </div>
             </div>
             <div class="col-md-3 button-wrapper btn">
-              <button type="button" class="btn btn-primary" style="margin-top: 0%" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?content=action'">
+              <button type="button" class="btn btn-primary" style="margin-top: 0%" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?page=1&content=best_rating&type=action'">
                 <p class="text-center" style="font-size:300%">Action</p>
               </button>
-              <button type="button" class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?content=sport'">
+              <button type="button" class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?page=1&content=best_rating&type=sport'">
                 <p class="text-center" style="font-size:300%">Sport</p>
               </button>
-              <button type="button" class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?content=fps'">
+              <button type="button" class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?page=1&content=best_rating&type=fps'">
                 <p class="text-center" style="font-size:300%">FPS</p>
               </button>
-              <button type="button" class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?content=strategy'">
+              <button type="button" class="btn btn-primary" onclick="location.href='/~<?php echo $dbusername ?>/genre.php?page=1&content=best_rating&type=strategy'">
                 <p class="text-center" style="font-size:300%">Strategy</p>
               </button>
             </div>
