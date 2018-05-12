@@ -9,6 +9,7 @@ if(isset($_GET['GameID'])){
   $result_get_rec = mysqli_query($conn, $sql_rec);
 
   $_SESSION['UserID'] = $user_id;
+  $_SESSION['GameID'] = $game_id;
   if($row = mysqli_fetch_assoc($result_get_rec)){
     $rec_name = $row['Name'];
     $rec_restrict = $row['AgeRestriction'];
@@ -18,10 +19,36 @@ if(isset($_GET['GameID'])){
     $rec_sys_req = $row['SystemRequirements'];
     $rec_info = $row['Info'];
   }
-
+  //Number of pages
+  $sql_page = "SELECT Comment, Rating, UserUserID FROM Write_Review ORDER BY Rating DESC";
+  $result_page = mysqli_query($conn, $sql_page);
+  $result_page_check = mysqli_num_rows($result_page);
+  if($result_page_check == 0){
+    header("Location: ../~$dbusername/gamenoreview.php");
+    exit();
+  }
+  $result_per_page = 3;
+  $number_of_pages = ceil($result_page_check / $result_per_page);
+  if(!isset($_GET['page'])){
+    $page = 1;
+    header("Location: ../~$dbusername/game.php?GameID=$game_id&page=1");
+    exit();
+  }
+  else{
+    $page = $_GET['page'];
+  }
+  if($page > $number_of_pages || $page < 1){
+    header("Location: ../~$dbusername/game.php?GameID=$game_id&page=1");
+    exit();
+  }
+  //Display via pagination
+  $starting_limit_index = ($page - 1) * 3;
+  $sql_rating = "SELECT Comment, Rating, UserUserID FROM Write_Review ORDER BY Rating DESC LIMIT " . $starting_limit_index . ", 3";
+  $result_rating = mysqli_query($conn, $sql_rating);
+  
 }
 else{
-  header("Location: ../~$dbusername/logout.php");
+  header("Location: ../~$dbusername/store.php");
   exit();
 }
 ?>
@@ -157,7 +184,7 @@ else{
               <div class="panel panel-default">
                 <div class="row">
                   <div class="col-md-6">
-                    <img src="800x800.jpg" class="img-responsive" alt="Temp" style="border: 1px solid black; width: 600px; height: 600px">
+                    <img src="images/<?php echo $game_id ?>.jpg" class="img-responsive" alt="Image" style="border: 1px solid black; width: 100%; height: 47%">
                     <!--
                       Must be bigger than container!
                       Must be square!
@@ -165,9 +192,9 @@ else{
                   </div>
                   <div class="col-md-6">
                     <div class="col-md-12" style="border: 1px solid black;margin-top: 3%; min-height: 29%; max-height: 29%">
-                      <p class="text" style="font-size:250%"> <?php echo $rec_name ?></p>
-		      <p class="text" style="font-size:100%"> Price: $<?php echo $rec_price ?></p>
-		      <p class="text" style="font-size:200%"> Rating: <?php echo $rec_rating ?></p>
+                      <p class="text" style="font-size:300%"> <?php echo $rec_name ?></p>
+		      <p class="text" style="font-size:200%"> Price: $<?php echo $rec_price ?></p>
+		      <p class="text" style="font-size:200%"> Rating: <?php echo $rec_rating ?>/5 </p>
                     </div>
                     <div class="col-md-12" style="border: 1px solid black;margin-top: 3%; min-height: 29%; max-height: 29%">
                       <p class="text" style="font-size:90%"> Game Description: <?php echo $rec_info ?></p>
@@ -249,26 +276,75 @@ else{
             <div class="col-md-12" style="border: 1px solid black">
               <div class="norow">
                 <p class="text-center" style="font-size:200%">Reviews</p>
-                <p class="text-center" style="font-size:300%">SQL</p>
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                      <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">Next</a>
-                    </li>
-                  </ul>
-                </nav>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-2"></div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div id="best_rating">
+            <div class="col-md-12" style="border: 1px solid black">
+	      <?php
+		while($row = mysqli_fetch_assoc($result_rating)){
+	          echo '<div class="row">';
+		    echo '<div class="col-md-4">';
+		      echo '<p class="text-left" style="font-size:150%">';
+		      echo  $row['Comment'];
+		      echo '</p>';
+		    echo '</div>';
+		    echo '<div class="col-md-4">';
+		      echo '<p class="text-center" style="font-size:150%">';
+		      echo  'Rating = ' .$row['Rating']. '/5' ;
+		      echo '</p>';
+		    echo '</div>';
+	          echo '</div>';
+		}
+		echo '<nav aria-label="Page navigation example">';
+		  echo '<ul class="pagination justify-content-center">';
+		    if($_GET['page'] <= 1){
+		      $disabled = " disabled";
+		    }
+		    else{
+		      $disabled = "";
+		    }
+		    
+		    $page_pre = $page - 1;
+		    $page_post = $page + 1;
+		    echo '<li class="page-item' . $disabled . '">';
+		      echo '<a class="page-link" href="/~' . $dbusername . '/game.php?GameID=' . $game_id .'&page=' . $page_pre . '">Previous</a>';
+		    echo '</li>';
+		    for($page = 1; $page <= $number_of_pages; $page++){
+		      if($page == $_GET['page']){
+			$disabled = " disabled";
+		      }
+		      else{
+			$disabled = "";
+		      }
+		      echo '<li class="page-item' . $disabled . '">';
+		        echo '<a class="page-link" href="/~' . $dbusername . '/game.php?GameID=' . $game_id .'&page=' .$page . '">' . $page . '</a>';
+		      echo '</li>';
+		    }
+		    if($_GET['page'] >= $number_of_pages){
+		      $disabled = " disabled";
+		    }
+		    else{
+		      $disabled = "";
+		    }
+		    echo '<li class="page-item' . $disabled . '">';
+                      echo '<a class="page-link" href="/~' . $dbusername . '/game.php?GameID=' . $game_id .'&page=' . $page_post . '">Next</a>';
+		    echo '</li>';
+		  echo '</ul>';
+		echo '</nav>';
+	      ?>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
       </div>
     </div>
     <div class="container-fluid">
