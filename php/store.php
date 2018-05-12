@@ -1,15 +1,13 @@
 <?php
 session_start();
 include_once 'config.php';
-
 if(isset($_SESSION['UserID'])){
   $user_id = $_SESSION['UserID'];
-  
+
   //Recommended game
   $sql_rec = "SELECT GameGameID, count(*) AS Count FROM Buy GROUP BY GameGameID ORDER BY count(*) DESC LIMIT 1;";
   $result_rec = mysqli_query($conn, $sql_rec);
   $result_rec_check = mysqli_num_rows($result_rec);
-
   if($result_rec_check === 0){
     $sql_rec = "SELECT GameID FROM Game ORDER BY RAND() LIMIT 1;";
     $result_rec = mysqli_query($conn, $sql_rec);
@@ -29,10 +27,9 @@ if(isset($_SESSION['UserID'])){
       $rec_id = $row['GameGameID'];
     }
   }
-  
+
   $sql_get_rec = "SELECT * FROM Game WHERE GameID = '$rec_id';";
   $result_get_rec = mysqli_query($conn, $sql_get_rec);
-
   if($row = mysqli_fetch_assoc($result_get_rec)){
     $rec_name = $row['Name'];
     $rec_restrict = $row['AgeRestriction'];
@@ -42,6 +39,35 @@ if(isset($_SESSION['UserID'])){
     $rec_sys_req = $row['SystemRequirements'];
     $rec_info = $row['Info'];
   }
+
+  //Number of pages
+  $sql_page = "SELECT Name, Rating, Price FROM Game ORDER BY Rating DESC;";
+  $result_page = mysqli_query($conn, $sql_page);
+  $result_page_check = mysqli_num_rows($result_page);
+
+  $result_per_page = 5;
+  $number_of_pages = ceil($result_page_check / $result_per_page);
+
+  if(!isset($_GET['page'])){
+    $page = 1;
+    header("Location: ../~$dbusername/store.php?page=1");
+    exit();
+  }
+  else{
+    $page = $_GET['page'];
+  }
+
+  if($page > $number_of_pages || $page < 1){
+    header("Location: ../~$dbusername/store.php?page=1");
+    exit();
+  }
+
+  //Display via pagination
+  $starting_limit_index = ($page - 1) * 5;
+
+  $sql_rating = "SELECT Name, Rating, Price FROM Game ORDER BY Rating DESC LIMIT " . $starting_limit_index . ", 5;";
+  $result_rating = mysqli_query($conn, $sql_rating);
+
 }
 else{
   header("Location: ../~$dbusername/register_login.php");
@@ -66,11 +92,9 @@ else{
     .container-fluid {
       margin-top: 25px;
     }
-
     .text {
       word-wrap: break-word;
     }
-
     .btn{
       text-align: center;
       white-space: normal;
@@ -79,20 +103,16 @@ else{
       min-width: 70px;
       min-height: 70px;
     }
-
     .button-wrapper .btn {
       margin-top: 3%;
     }
-
     a {
       text-decoration: none !important;
     }
-
     a:hover {
       //color: blue;
       cursor: pointer;
     }
-
     </style>
 
     <title>Store</title>
@@ -215,16 +235,16 @@ else{
             </div>
             <div class="col-md-3 button-wrapper btn">
               <button type="button" class="btn btn-primary" style="margin-top: 0%">
-                <p class="text" style="font-size:300%">Genre 1</p>
+                <p class="text-center" style="font-size:300%">Action</p>
               </button>
               <button type="button" class="btn btn-primary">
-                <p class="text" style="font-size:300%">Genre 2</p>
+                <p class="text-center" style="font-size:300%">Sport</p>
               </button>
               <button type="button" class="btn btn-primary">
-                <p class="text" style="font-size:300%">Genre 3</p>
+                <p class="text-center" style="font-size:300%">FPS</p>
               </button>
               <button type="button" class="btn btn-primary">
-                <p class="text" style="font-size:300%">Genre 4</p>
+                <p class="text-center" style="font-size:300%">Strategy</p>
               </button>
             </div>
           </div>
@@ -273,7 +293,67 @@ else{
         <div class="col-md-10">
           <div id="best_rating">
             <div class="col-md-9" style="border: 1px solid black">
-              <p class="text" style="font-size:300%">SQL 1</p>
+	      <?php
+		while($row = mysqli_fetch_assoc($result_rating)){
+	          echo '<div class="row">';
+		    echo '<div class="col-md-4">';
+		      echo '<p class="text-left" style="font-size:150%">';
+		      echo  $row['Name'];
+		      echo '</p>';
+		    echo '</div>';
+		    echo '<div class="col-md-4">';
+		      echo '<p class="text-center" style="font-size:150%">';
+		      echo  $row['Rating'];
+		      echo '</p>';
+		    echo '</div>';
+		    echo '<div class="col-md-4">';
+		      echo '<p class="text-right" style="font-size:150%">';
+		      echo  $row['Price'];
+		      echo '</p>';
+		    echo '</div>';
+	          echo '</div>';
+		}
+		echo '<nav aria-label="Page navigation example">';
+		  echo '<ul class="pagination justify-content-center">';
+		    if($_GET['page'] <= 1){
+		      $disabled = " disabled";
+		    }
+		    else{
+		      $disabled = "";
+		    }
+		    
+		    $page_pre = $page - 1;
+		    $page_post = $page + 1;
+
+		    echo '<li class="page-item' . $disabled . '">';
+		      echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' . $page_pre . '">Previous</a>';
+		    echo '</li>';
+		    for($page = 1; $page <= $number_of_pages; $page++){
+		      if($page == $_GET['page']){
+			$disabled = " disabled";
+		      }
+		      else{
+			$disabled = "";
+		      }
+
+		      echo '<li class="page-item' . $disabled . '">';
+		        echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' .$page . '">' . $page . '</a>';
+		      echo '</li>';
+		    }
+
+		    if($_GET['page'] >= $number_of_pages){
+		      $disabled = " disabled";
+		    }
+		    else{
+		      $disabled = "";
+		    }
+
+		    echo '<li class="page-item' . $disabled . '">';
+                      echo '<a class="page-link" href="/~' . $dbusername . '/store.php?page=' . $page_post . '">Next</a>';
+		    echo '</li>';
+		  echo '</ul>';
+		echo '</nav>';
+	      ?>
             </div>
           </div>
 
@@ -303,7 +383,6 @@ else{
       lowest_price.style.display = "none";
       asc_title.style.display = "none";
     }
-
     function lowest_price(){
       var best_rating = document.getElementById("best_rating");
       var lowest_price = document.getElementById("lowest_price");
@@ -312,7 +391,6 @@ else{
       lowest_price.style.display = "block";
       asc_title.style.display = "none";
     }
-
     function asc_title(){
       var best_rating = document.getElementById("best_rating");
       var lowest_price = document.getElementById("lowest_price");
