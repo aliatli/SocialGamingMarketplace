@@ -167,7 +167,7 @@ else{
 		    $rec_info = $row['Info'];
 		  -->
                     <div class="col-md-11" style="border: 1px solid black; min-height: 10%; max-height: 29%">
-		      <a href="/~<?php echo $dbusername?>/game.php?<?php echo $rec_id?>">
+		      <a href="/~<?php echo $dbusername?>/game.php?GameID=<?php echo $rec_id?>">
                         <p class="text-center" style="font-size:300%">
 		          <?php echo $rec_name ?>
 		        </p>
