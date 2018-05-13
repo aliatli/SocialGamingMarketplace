@@ -227,8 +227,8 @@ public class Database{
 			sql = "INSERT INTO Belong (GameGameID, GenreGenreID) VALUES (6, 1);";
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE IF NOT EXISTS `Group`"
-					+ "(GroupID INT NOT NULL,"
+			sql = "CREATE TABLE IF NOT EXISTS Grp"
+					+ "(GroupID INT NOT NULL AUTO_INCREMENT,"
 					+ "Name VARCHAR(16) NOT NULL,"
 					+ "CreationDate DATE NOT NULL,"
 					+ "PRIMARY KEY(GroupID)) ENGINE=innodb;";
@@ -241,7 +241,7 @@ public class Database{
 					+ "Date DATE NOT NULL,"
 					+ "PRIMARY KEY(UserUserID, GroupGroupID),"
 					+ "CONSTRAINT UserUserID_mem FOREIGN KEY(UserUserID) REFERENCES User(UserID) ON DELETE CASCADE ON UPDATE CASCADE,"
-					+ "CONSTRAINT GroupGroupID_mem FOREIGN KEY(GroupGroupID) REFERENCES `Group`(GroupID) ON DELETE CASCADE ON UPDATE CASCADE)"
+					+ "CONSTRAINT GroupGroupID_mem FOREIGN KEY(GroupGroupID) REFERENCES Grp(GroupID) ON DELETE CASCADE ON UPDATE CASCADE)"
 					+ "ENGINE=innodb;";
 			stmt.executeUpdate(sql);
 			System.out.println("Created table Member in the database");
@@ -253,7 +253,7 @@ public class Database{
 					+ "Date DATE NOT NULL,"
 					+ "PRIMARY KEY(UserUserID, GroupGroupID),"
 					+ "CONSTRAINT UserUserID_com FOREIGN KEY(UserUserID) REFERENCES User(UserID) ON DELETE CASCADE ON UPDATE CASCADE,"
-					+ "CONSTRAINT GroupGroupID_com FOREIGN KEY(GroupGroupID) REFERENCES `Group`(GroupID) ON DELETE CASCADE ON UPDATE CASCADE)"
+					+ "CONSTRAINT GroupGroupID_com FOREIGN KEY(GroupGroupID) REFERENCES Grp(GroupID) ON DELETE CASCADE ON UPDATE CASCADE)"
 					+ "ENGINE=innodb;";
 			stmt.executeUpdate(sql);
 			System.out.println("Created table Comment in the database");
