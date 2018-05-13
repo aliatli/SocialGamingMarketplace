@@ -37,7 +37,7 @@ if(isset($_GET['GameID'])){
   }
   
   //Number of pages
-  $sql_page = "SELECT Comment, Rating, UserUserID FROM Write_Review ORDER BY Rating DESC";
+  $sql_page = "SELECT Comment, Rating, UserUserID FROM Write_Review WHERE GameGameID = '$game_id' ORDER BY Rating DESC";
   $result_page = mysqli_query($conn, $sql_page);
   $result_page_check = mysqli_num_rows($result_page);
   if($result_page_check == 0){
