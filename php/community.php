@@ -179,7 +179,9 @@ else{
 	            echo '<div class="row">';
 		      echo '<div class="col-md-4">';
 		        echo '<p class="text-left" style="font-size:150%">';
+			 echo '<a href="/~' . $dbusername . '/group.php?GroupID=' . $row['Name'] . '">';
 		        echo  $row['Name'];
+			 echo '</a>';
 		        echo '</p>';
 		      echo '</div>';
 	            echo '</div>';
@@ -239,8 +241,10 @@ else{
 	            echo '<div class="row">';
 		      echo '<div class="col-md-4">';
 		        echo '<p class="text-left" style="font-size:150%">';
+			echo '<a href="/~' . $dbusername . '/group.php?GroupID=' . $row['Name'] . '">';
 		        echo  $row['Name'];
 		        echo '</p>';
+			echo '</a>';
 		      echo '</div>';
 	            echo '</div>';
 		  }
