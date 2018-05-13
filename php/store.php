@@ -77,13 +77,13 @@ if(isset($_SESSION['UserID'])){
   $starting_limit_index = ($page - 1) * 5;
 
   if($_GET['content'] === best_rating){
-    $sql_rating = "SELECT Name, Rating, Price FROM Game ORDER BY Rating DESC LIMIT " . $starting_limit_index . ", 5;";
+    $sql_rating = "SELECT GameID, Name, Rating, Price FROM Game ORDER BY Rating DESC LIMIT " . $starting_limit_index . ", 5;";
   }
   else if($_GET['content'] === lowest_price){
-    $sql_rating = "SELECT Name, Rating, Price FROM Game ORDER BY Price ASC LIMIT " . $starting_limit_index . ", 5;";
+    $sql_rating = "SELECT GameID, Name, Rating, Price FROM Game ORDER BY Price ASC LIMIT " . $starting_limit_index . ", 5;";
   }
   else if($_GET['content'] === title){
-    $sql_rating = "SELECT Name, Rating, Price FROM Game ORDER BY Name ASC LIMIT " . $starting_limit_index . ", 5;";
+    $sql_rating = "SELECT GameID, Name, Rating, Price FROM Game ORDER BY Name ASC LIMIT " . $starting_limit_index . ", 5;";
   }
 
   $result_rating = mysqli_query($conn, $sql_rating);
@@ -339,9 +339,12 @@ else{
 		  while($row = mysqli_fetch_assoc($result_rating)){
 	            echo '<div class="row">';
 		      echo '<div class="col-md-4">';
-		        echo '<p class="text-left" style="font-size:150%">';
-		        echo  $row['Name'];
-		      echo '</p>';
+			$link_var = $row['GameID'];
+			echo '<a href="/~' . $dbusername . '/game.php?GameID=' . $link_var . '">';
+		          echo '<p class="text-left" style="font-size:150%">';
+		            echo  $row['Name'];
+		          echo '</p>';
+			echo '</a>';
 		      echo '</div>';
 		      echo '<div class="col-md-4">';
 		        echo '<p class="text-center" style="font-size:150%">';
@@ -414,9 +417,12 @@ else{
 		  while($row = mysqli_fetch_assoc($result_rating)){
 	            echo '<div class="row">';
 		      echo '<div class="col-md-4">';
-		        echo '<p class="text-left" style="font-size:150%">';
-		        echo  $row['Name'];
-		      echo '</p>';
+			$link_var = $row['GameID'];
+			echo '<a href="/~' . $dbusername . '/game.php?GameID=' . $link_var . '">';
+		          echo '<p class="text-left" style="font-size:150%">';
+		            echo  $row['Name'];
+		          echo '</p>';
+			echo '</a>';
 		      echo '</div>';
 		      echo '<div class="col-md-4">';
 		        echo '<p class="text-center" style="font-size:150%">';
@@ -489,9 +495,12 @@ else{
 		  while($row = mysqli_fetch_assoc($result_rating)){
 	            echo '<div class="row">';
 		      echo '<div class="col-md-4">';
-		        echo '<p class="text-left" style="font-size:150%">';
-		        echo  $row['Name'];
-		      echo '</p>';
+			$link_var = $row['GameID'];
+			echo '<a href="/~' . $dbusername . '/game.php?GameID=' . $link_var . '">';
+		          echo '<p class="text-left" style="font-size:150%">';
+		            echo  $row['Name'];
+		          echo '</p>';
+			echo '</a>';
 		      echo '</div>';
 		      echo '<div class="col-md-4">';
 		        echo '<p class="text-center" style="font-size:150%">';

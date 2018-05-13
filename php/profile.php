@@ -86,7 +86,7 @@ if(isset($_SESSION['UserID'])){
   //Display via pagination
   $starting_limit_index_game = ($page_game - 1) * $result_per_page_game;
 
-  $sql_limit_game = "SELECT Name FROM Game WHERE GameID IN (SELECT GameGameID FROM Buy WHERE UserUserID = $profile_id) ORDER BY Name ASC LIMIT $starting_limit_index_game, $result_per_page_game;";
+  $sql_limit_game = "SELECT GameID, Name FROM Game WHERE GameID IN (SELECT GameGameID FROM Buy WHERE UserUserID = $profile_id) ORDER BY Name ASC LIMIT $starting_limit_index_game, $result_per_page_game;";
 
   $result_limit_game = mysqli_query($conn, $sql_limit_game);
 
@@ -129,7 +129,7 @@ if(isset($_SESSION['UserID'])){
   //Display via pagination
   $starting_limit_index_wish = ($page_wish - 1) * $result_per_page_wish;
 
-  $sql_limit_wish = "SELECT Name FROM Game WHERE GameID IN (SELECT GameGameID FROM WishList WHERE UserUserID = $profile_id) ORDER BY Name ASC LIMIT $starting_limit_index_wish, $result_per_page_wish;";
+  $sql_limit_wish = "SELECT GameID, Name FROM Game WHERE GameID IN (SELECT GameGameID FROM WishList WHERE UserUserID = $profile_id) ORDER BY Name ASC LIMIT $starting_limit_index_wish, $result_per_page_wish;";
 
   $result_limit_wish = mysqli_query($conn, $sql_limit_wish);
 
@@ -151,7 +151,7 @@ if(isset($_SESSION['UserID'])){
   //Display via pagination
   $starting_limit_index_follow = ($page_follow - 1) * $result_per_page_follow;
 
-  $sql_limit_follow = "SELECT UserName FROM User WHERE UserID IN (SELECT UserUserID2 FROM FriendList WHERE UserUserID = $profile_id UNION DISTINCT SELECT UserUserID FROM FriendList WHERE UserUserID2 = $profile_id) ORDER BY UserName ASC LIMIT $starting_limit_index_follow, $result_per_page_follow;";
+  $sql_limit_follow = "SELECT UserID, UserName FROM User WHERE UserID IN (SELECT UserUserID2 FROM FriendList WHERE UserUserID = $profile_id UNION DISTINCT SELECT UserUserID FROM FriendList WHERE UserUserID2 = $profile_id) ORDER BY UserName ASC LIMIT $starting_limit_index_follow, $result_per_page_follow;";
 
   $result_limit_follow = mysqli_query($conn, $sql_limit_follow);
 
@@ -180,25 +180,26 @@ else{
     .container-fluid {
       margin-top: 25px;
     }
-
     .text {
       word-wrap: break-word;
     }
-
     .btn{
-        text-align: center;
-        white-space: normal;
-        word-wrap: break-word;
-        width: 100%;
+      text-align: center;
+      white-space: normal;
+      word-wrap: break-word;
+      width: 100%;
+      min-width: 70px;
+      min-height: 70px;
     }
-
     .button-wrapper .btn {
       margin-top: 3%;
     }
-
-    .img-responsive{
-      max-width: 100%;
-      max-height: 100%;
+    a {
+      text-decoration: none !important;
+    }
+    a:hover {
+      //color: blue;
+      cursor: pointer;
     }
 
     </style>
@@ -363,9 +364,12 @@ else{
                 <p class="text-center" style="font-size:200%">Games</p>
                 <?php
 		  while($row = mysqli_fetch_assoc($result_limit_game)){
-		    echo '<p class="text-center" style="font-size:150%">';
-		      echo  $row['Name'];
-		    echo '</p>';
+		    $link_var = $row['GameID'];
+		    echo '<a href="/~' . $dbusername . '/game.php?GameID=' . $link_var . '">';
+		      echo '<p class="text-center" style="font-size:150%">';
+		        echo  $row['Name'];
+		      echo '</p>';
+		    echo '</a>';
 		  }
 		  echo '<nav aria-label="Page navigation example">';
 		    echo '<ul class="pagination justify-content-center">';
@@ -416,9 +420,10 @@ else{
             <div class="col-md-12" style="border: 1px solid black">
               <div class="norow">
                 <p class="text-center" style="font-size:200%">Reviews</p>
-		<p class="text-left" style="font-size:150%">Comment:</p>
+
                 <?php
 		  while($row = mysqli_fetch_assoc($result_limit_review)){
+		    echo '<p class="text-left" style="font-size:150%">Comment:</p>';
 		    echo '<p class="text-left" style="font-size:100%">';
 		      echo  $row['Comment'];
 		    echo '</p>';
@@ -481,9 +486,12 @@ else{
                 <p class="text-center" style="font-size:200%">Wish List</p>
 		<?php
 		  while($row = mysqli_fetch_assoc($result_limit_wish)){
-		    echo '<p class="text-center" style="font-size:150%">';
-		      echo  $row['Name'];
-		    echo '</p>';
+		    $link_var = $row['GameID'];
+		    echo '<a href="/~' . $dbusername . '/game.php?GameID=' . $link_var . '">';
+		      echo '<p class="text-center" style="font-size:150%">';
+		        echo  $row['Name'];
+		      echo '</p>';
+		    echo '</a>';
 		  }
 		  echo '<nav aria-label="Page navigation example">';
 		    echo '<ul class="pagination justify-content-center">';
@@ -536,9 +544,12 @@ else{
                 <p class="text-center" style="font-size:200%">Follower List</p>
 		<?php
 		  while($row = mysqli_fetch_assoc($result_limit_follow)){
-		    echo '<p class="text-center" style="font-size:150%">';
-		      echo  $row['UserName'];
-		    echo '</p>';
+		    $link_var = $row['UserID'];
+		    echo '<a href="/~' . $dbusername . '/profile.php?profile_no=' . $link_var . '">';
+		      echo '<p class="text-center" style="font-size:150%">';
+		        echo  $row['UserName'];
+		      echo '</p>';
+		    echo '</a>';
 		  }
 		  echo '<nav aria-label="Page navigation example">';
 		    echo '<ul class="pagination justify-content-center">';

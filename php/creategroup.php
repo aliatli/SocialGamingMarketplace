@@ -1,7 +1,6 @@
 <?php
 session_start();
 include_once 'config.php';
-
 if(isset($_SESSION['UserID'])){
   $user_id = $_SESSION['UserID'];
   $group_name = mysqli_real_escape_string($conn, $_POST['create_group']);

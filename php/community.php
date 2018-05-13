@@ -4,7 +4,6 @@ include_once 'config.php';
 if(isset($_SESSION['UserID'])){
   $user_id = $_SESSION['UserID'];
   $_SESSION['UserID'] = $user_id;
-
   if($_GET['content'] === own_groups){
     $sql_page = "SELECT Grp.Name FROM Grp, Member WHERE Grp.GroupID = Member.GroupGroupID AND Member.UserUserID = '$user_id' ORDER BY Grp.CreationDate ASC;";
   }
@@ -13,10 +12,8 @@ if(isset($_SESSION['UserID'])){
   }
   $result_page = mysqli_query($conn, $sql_page);
   $result_page_check = mysqli_num_rows($result_page);
-
   $result_per_page = 5;
   $number_of_pages = ceil($result_page_check / $result_per_page);
-
   if(!isset($_GET['page'])){
     header("Location: ../~$dbusername/community.php?page=1&content=all_groups");
     exit();
@@ -28,10 +25,8 @@ if(isset($_SESSION['UserID'])){
   	}
   }
   $page = $_GET['page'];
-
   //Display via pagination
   $starting_limit_index = ($page - 1) * 5;
-
   if($_GET['content'] === own_groups){
     $sql_rating = "SELECT Name FROM Grp, Member WHERE Grp.GroupID = Member.GroupGroupID AND Member.UserUserID = '$user_id' ORDER BY Grp.CreationDate ASC LIMIT " . $starting_limit_index . ", 5;";
   }
@@ -42,7 +37,6 @@ if(isset($_SESSION['UserID'])){
   if($result_page_check === 0){
 	header("Location: ../~$dbusername/profile.php");
   }
-
   $result_rating = mysqli_query($conn, $sql_rating);
 }
 else{
@@ -68,22 +62,18 @@ else{
     .container-fluid {
       margin-top: 25px;
     }
-
     .text {
       word-wrap: break-word;
     }
-
     .btn{
         text-align: center;
         white-space: normal;
         word-wrap: break-word;
         width: 100%;
     }
-
     .button-wrapper .btn {
       margin-top: 3%;
     }
-
     </style>
 
     <title>Community</title>
@@ -137,35 +127,6 @@ else{
       </div>
     </div>
 
-<div class="container-fluid">
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-          <div class="row">
-            <div class="col-md-10">
-             <form class="form" role="form" method="post" action="/~<?php echo $dbusername ?>/creategroup.php">
-		<div class="col-md-3"></div>
-                <label for="create_group" class="col-md-12 col-form-label" style="font-size:200%; text-align: left">Create New Group</label>
-                <div class="col-md-3">
-                  <label for="create_group" class="col-md-12 col-form-label" style="font-size:100%">Group Name:</label>
-                  <div class="col-md-12">
-                    <input class="form-control" style="font-size:90%" type="text" value="" id="create_group" name="create_group" maxlength="16" placeholder="Group Name">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-md-3">
-		    <div class="col-md-3"></div>
-                    <button type="submit" class="btn btn-primary">Create</button>
-                  </div>
-                </div>
-	      </form>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-1"></div>
-      </div>
-    </div>
-
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-1"></div>
@@ -195,14 +156,13 @@ else{
             <div class="col-md-3"></div>
           </div>
         </div>
-        <div class="col-md-1"></div>
-      </div>
+      <div class="col-md-1"></div>
     </div>
 
-   <div class="container-fluid">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-md-1"></div>
-        <div class="col-md-10">
+        <div class="col-md-8">
 	  <?php
 	    if($_GET['content'] !== all_groups){
 	      $disabled = True;
@@ -214,7 +174,7 @@ else{
           <div id="all_groups">
 	    <?php
 	      if(!$disabled){
-                echo '<div class="col-md-9" style="border: 1px solid black">';
+                echo '<div class="col-md-12" style="border: 1px solid black">';
 		  while($row = mysqli_fetch_assoc($result_rating)){
 	            echo '<div class="row">';
 		      echo '<div class="col-md-4">';
@@ -232,7 +192,6 @@ else{
 		    
 		      $page_pre = $page - 1;
 		      $page_post = $page + 1;
-
 		      echo '<li class="page-item' . $disabled . '">';
 		        echo '<a class="page-link" href="/~' . $dbusername . '/community.php?page=' . $page_pre . '&content=all_groups">Previous</a>';
 		      echo '</li>';
@@ -243,25 +202,22 @@ else{
 		        else{
 			  $disabled = "";
 		        }
-
 		        echo '<li class="page-item' . $disabled . '">';
 		          echo '<a class="page-link" href="/~' . $dbusername . '/community.php?page=' . $page . '&content=all_groups">' . $page . '</a>';
 		        echo '</li>';
 		      }
-
 		      if($_GET['page'] >= $number_of_pages){
 		        $disabled = " disabled";
 		      }
 		      else{
 		        $disabled = "";
 		      }
-
 		      echo '<li class="page-item' . $disabled . '">';
                         echo '<a class="page-link" href="/~' . $dbusername . '/community.php?page=' . $page_post . '&content=all_groups">Next</a>';
 		      echo '</li>';
 		    echo '</ul>';
 		  echo '</nav>';
-		echo '</dib>';
+		echo '</div>';
 	      }
 	    ?>
           </div>
@@ -273,13 +229,12 @@ else{
 	    else{
 	      $disabled = False;
 	    }
-
 	  ?>
 
           <div id="own_groups">
 	    <?php
 	      if(!$disabled){
-                echo '<div class="col-md-9" style="border: 1px solid black">';
+                echo '<div class="col-md-12" style="border: 1px solid black">';
 		  while($row = mysqli_fetch_assoc($result_rating)){
 	            echo '<div class="row">';
 		      echo '<div class="col-md-4">';
@@ -297,7 +252,6 @@ else{
 		    
 		      $page_pre = $page - 1;
 		      $page_post = $page + 1;
-
 		      echo '<li class="page-item' . $disabled . '">';
 		        echo '<a class="page-link" href="/~' . $dbusername . '/community.php?page=' . $page_pre . '&content=own_groups">Previous</a>';
 		      echo '</li>';
@@ -308,49 +262,51 @@ else{
 		        else{
 			  $disabled = "";
 		        }
-
 		        echo '<li class="page-item' . $disabled . '">';
 		          echo '<a class="page-link" href="/~' . $dbusername . '/community.php?page=' . $page . '&content=own_groups">' . $page . '</a>';
 		        echo '</li>';
 		      }
-
 		      if($_GET['page'] >= $number_of_pages){
 		        $disabled = " disabled";
 		      }
 		      else{
 		        $disabled = "";
 		      }
-
 		      echo '<li class="page-item' . $disabled . '">';
                         echo '<a class="page-link" href="/~' . $dbusername . '/community.php?page=' . $page_post . '&content=own_groups">Next</a>';
 		      echo '</li>';
 		    echo '</ul>';
 		  echo '</nav>';
-		echo '</dib>';
+		echo '</div>';
 	      }
 	    ?>
+          </div>
+        </div>
+        
+        <div class="col-md-2">
+          <div class="row">
+            <div class="col-md-12">
+             <form class="form" role="form" method="post" action="/~<?php echo $dbusername ?>/creategroup.php">
+		<div class="col-md-12"></div>
+                <label for="create_group" class="col-md-12 col-form-label" style="font-size:200%; text-align: left">Create New Group</label>
+                <div class="col-md-12">
+                  <label for="create_group" class="col-md-12 col-form-label" style="font-size:100%">Group Name:</label>
+                  <div class="col-md-12">
+                    <input class="form-control" style="font-size:90%" type="text" value="" id="create_group" name="create_group" maxlength="16" placeholder="Group Name">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-12" style="margin-top:3%;">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                  </div>
+                </div>
+	      </form>
+            </div>
           </div>
         </div>
         <div class="col-md-1"></div>
       </div>
     </div>
-
-
-    <script language="JavaScript" type="text/javascript">
-    function all_groups(){
-      var all_groups = document.getElementById("all_groups");
-      var your_groups = document.getElementById("your_groups");
-      all_groups.style.display = "block";
-      your_groups.style.display = "none";
-    }
-
-    function your_groups(){
-      var all_groups = document.getElementById("all_groups");
-      var your_groups = document.getElementById("your_groups");
-      all_groups.style.display = "none";
-      your_groups.style.display = "block";
-    }
-    </script>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
