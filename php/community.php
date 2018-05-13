@@ -116,18 +116,20 @@ else{
               </div>
             </div>
             <div class="col-md-3">
+	      <form class="form" role="form" method="post" action="/~<?php echo $dbusername ?>/search.php">
               <div class="row">
                 <div class="col-md-9">
                   <div class="panel panel-default" style="margin-top: 3%">
-                    <input class="form-control" placeholder="Search" style="font-size:300%">
+                    <input class="form-control" placeholder="Search" style="font-size:300%" name="search_content">
                   </div>
                 </div>
                 <div class="col-md-3" style="margin-top: 5%">
-                  <button type="button" class="btn btn-primary">
+                  <button type="submit" class="btn btn-primary">
                     <i class="fa fa-search" style="font-size:300%"></i>
                   </button>
                 </div>
               </div>
+	      </form>
             </div>
           </div>
         </div>
