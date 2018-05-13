@@ -4,8 +4,9 @@ include_once 'config.php';
 if(isset($_SESSION['UserID'])){
   $user_id = $_SESSION['UserID'];
   $_SESSION['UserID'] = $user_id;
+
   if($_GET['content'] === own_groups){
-    $sql_page = "SELECT Grp.Name FROM Grp, Member WHERE Grp.GroupID = Member.GroupGroupID AND Member.UserUserID = '$user_id' ORDER BY Group.CreationDate ASC;";
+    $sql_page = "SELECT Grp.Name FROM Grp, Member WHERE Grp.GroupID = Member.GroupGroupID AND Member.UserUserID = '$user_id' ORDER BY Grp.CreationDate ASC;";
   }
   else if($_GET['content'] === all_groups){
     $sql_page = "SELECT Name FROM Grp ORDER BY CreationDate ASC;";
@@ -16,7 +17,7 @@ if(isset($_SESSION['UserID'])){
     header("Location: ../~$dbusername/logout.php");
     exit();
   }
-  $result_per_page = 10;
+  $result_per_page = 5;
   $number_of_pages = ceil($result_page_check / $result_per_page);
 
   if(!isset($_GET['page'])){
@@ -24,25 +25,25 @@ if(isset($_SESSION['UserID'])){
     exit();
   }
   else{
-	if(!isset($_GET['content'])){
-    	header("Location: ../~$dbusername/community.php");
+	if(!isset($_GET['page'])){
+    	header("Location: ../~$dbusername/community.php?page=1&content=all_groups");
     	exit();
   	}
   }
   $page = $_GET['page'];
 
   if($page > $number_of_pages || $page < 1){
-    header("Location: ../~$dbusername/community.php?page=1");
+        header("Location: ../~$dbusername/community.php?page=1");
     exit();
   }
   //Display via pagination
-  $starting_limit_index = ($page - 1) * 10;
+  $starting_limit_index = ($page - 1) * 5;
 
   if($_GET['content'] === own_groups){
-    $sql_rating = "SELECT Name FROM Grp, Member WHERE Grp.GroupID = Member.GroupGroupID AND Member.UserUserID = '$user_id' ORDER BY Group.CreationDate ASC LIMIT " . $starting_limit_index . ", 10;";
+    $sql_rating = "SELECT Name FROM Grp, Member WHERE Grp.GroupID = Member.GroupGroupID AND Member.UserUserID = '$user_id' ORDER BY Grp.CreationDate ASC LIMIT " . $starting_limit_index . ", 5;";
   }
   else if($_GET['content'] === all_groups){
-    $sql_rating = "SELECT Name FROM Grp ORDER BY CreationDate ASC LIMIT " . $starting_limit_index . ", 10;";
+    $sql_rating = "SELECT Name FROM Grp ORDER BY CreationDate ASC LIMIT " . $starting_limit_index . ", 5;";
   }
   $result_page_check = mysqli_num_rows($sql_rating);
   if($result_page_check === 0){
@@ -314,7 +315,7 @@ else{
 		        }
 
 		        echo '<li class="page-item' . $disabled . '">';
-		          echo '<a class="page-link" href="/~' . $dbusername . '/community.php?page=' .$page . '&content=own_groups">' . $page . '</a>';
+		          echo '<a class="page-link" href="/~' . $dbusername . '/community.php?page=' . $page . '&content=own_groups">' . $page . '</a>';
 		        echo '</li>';
 		      }
 
