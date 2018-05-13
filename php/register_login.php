@@ -131,62 +131,46 @@ include("config.php");
     function email_or_username_func(){
       var email_or_username_func_value = document.getElementById("email_or_username").value;
       var new_email_or_username_func_value = email_or_username_func_value.replace(/\s+/g, '').replace(/[^_.@a-zA-Z0-9-\ ]+/g, '');
-
       document.getElementById("email_or_username").value = new_email_or_username_func_value;
     }
-
     function email_func(){
       var email_value = document.getElementById("email").value;
       var new_email_value = email_value.replace(/\s+/g, '').replace(/[^_.@a-zA-Z0-9-\ ]+/g, '');
-
       document.getElementById("email").value = new_email_value;
     }
-
     function username_func(){
       var username_value = document.getElementById("username").value;
       var new_username_value = username_value.replace(/\s+/g, '').replace(/[^_.a-zA-Z0-9-\ ]+/g, '');
-
       document.getElementById("username").value = new_username_value;
     }
-
     function firstname_func(){
       var firstname_value = document.getElementById("firstname").value;
       var new_firstname_value = firstname_value.replace(/\s+/g, '').replace(/[^a-zA-Z\ ]+/g, '');
-
       document.getElementById("firstname").value = new_firstname_value;
     }
-
     function lastname_func(){
       var lastname_value = document.getElementById("lastname").value;
       var new_lastname_value = lastname_value.replace(/\s+/g, '').replace(/[^a-zA-Z\ ]+/g, '');
-
       document.getElementById("lastname").value = new_lastname_value;
     }
-
     function date_of_birth_func(){
       var date_of_birth_value = document.getElementById("date_of_birth").value;
       var new_date_of_birth_value = date_of_birth_value.replace(/\s+/g, '').replace(/[^0-9\ ]+/g, '');
-
       if(new_date_of_birth_value.length > 4){
         new_date_of_birth_value = new_date_of_birth_value.substring(0, 4) + "-" + new_date_of_birth_value.substring(4, new_date_of_birth_value.length);
       }
-
       if(new_date_of_birth_value.length > 7){
         new_date_of_birth_value = new_date_of_birth_value.substring(0, 7) + "-" + new_date_of_birth_value.substring(7, new_date_of_birth_value.length);
       }
-
       if(new_date_of_birth_value.length > 10){
         new_date_of_birth_value = new_date_of_birth_value.substring(0,10);
       }
-
       if(new_date_of_birth_value.substring(5, 7) > 12){
         new_date_of_birth_value = new_date_of_birth_value.substring(0, 5) + "12" + new_date_of_birth_value.substring(7, new_date_of_birth_value.length);
       }
-
       if(new_date_of_birth_value.substring(8, 10) > 31){
         new_date_of_birth_value = new_date_of_birth_value.substring(0, 8) + "31";
       }
-
       document.getElementById("date_of_birth").value = new_date_of_birth_value;
     }
     </script>
