@@ -259,7 +259,7 @@ else{
         <div class="col-md-1"></div>
         <div class="col-md-9">
           <div class="row">
-            <div class="col-md-4" style="border: 1px solid black">
+            <div class="col-md-4">
               <img src="images/<?php echo $user_id ?>.jpg" class="img-responsive" alt="Image" style="border: 1px solid black; width: 100%; height: 45%">
             </div>
 	    <!--
