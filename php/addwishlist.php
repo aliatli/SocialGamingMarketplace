@@ -23,5 +23,3 @@ include_once 'config.php';
     exit();
    }
 ?>
-
-
