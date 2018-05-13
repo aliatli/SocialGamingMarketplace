@@ -5,9 +5,9 @@ public class Database{
 		Statement stmt = null;
 		Connection conn = null;
 		try {
-			String server = "jdbc:mysql://dijkstra.ug.bcc.bilkent.edu.tr/ulas_is";
-			String name = "ulas.is";
-			String pass = "7fq5bg09";
+			String server = "jdbc:mysql://dijkstra.ug.bcc.bilkent.edu.tr/cagatay_kupeli";
+			String name = "cagatay.kupeli";
+			String pass = "rxtnb2bwh";
 			conn = DriverManager.getConnection(server, name, pass);
 			
 			stmt = conn.createStatement();
@@ -59,6 +59,24 @@ public class Database{
 					+ "PRIMARY KEY (GameID)) ENGINE=innodb;";
 			stmt.executeUpdate(sql);
 			System.out.println("Created table Game in the database");
+			
+			sql = "INSERT INTO Game (Name, AgeRestriction, Price, Rating, NumberOfPlayers, SystemRequirements, Info) VALUES ('Name 1', 12, 14.5, 4, 3, 'System requirements 1', 'Info 1');";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Game (Name, AgeRestriction, Price, Rating, NumberOfPlayers, SystemRequirements, Info) VALUES ('Name 2', 18, 27.5, 3, 2, 'System requirements 2', 'Info 2');";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Game (Name, AgeRestriction, Price, Rating, NumberOfPlayers, SystemRequirements, Info) VALUES ('Name 3', 15, 11.5, 4, 1, 'System requirements 3', 'Info 2');";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Game (Name, AgeRestriction, Price, Rating, NumberOfPlayers, SystemRequirements, Info) VALUES ('Name 4', 11, 11.5, 2, 6, 'System requirements 4', 'Info 4');";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Game (Name, AgeRestriction, Price, Rating, NumberOfPlayers, SystemRequirements, Info) VALUES ('Name 5', 18, 27, 2, 1, 'System requirements 5', 'Info 5');";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Game (Name, AgeRestriction, Price, Rating, NumberOfPlayers, SystemRequirements, Info) VALUES ('Name 6', 28, 1, 4, 3, 'System requirements 6', 'Info 6');";
+			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE IF NOT EXISTS Buy"
 					+ "(UserUserID INT NOT NULL,"
@@ -151,20 +169,63 @@ public class Database{
 			System.out.println("Created table In_Game_Item in the database");
 			
 			sql = "CREATE TABLE IF NOT EXISTS Genre"
-					+ "(Type VARCHAR(16) NOT NULL,"
-					+ "PRIMARY KEY(Type)) ENGINE=innodb;";
+					+ "(GenreID INT NOT NULL AUTO_INCREMENT,"
+					+ "Type VARCHAR(16) NOT NULL,"
+					+ "PRIMARY KEY(GenreID)) ENGINE=innodb;";
 			stmt.executeUpdate(sql);
 			System.out.println("Created table Genre in the database");
 			
+			sql = "INSERT INTO Genre (Type) VALUES ('action');";
+			stmt.executeUpdate(sql);
+
+			sql = "INSERT INTO Genre (Type) VALUES ('sport');";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Genre (Type) VALUES ('strategy');";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Genre (Type) VALUES ('fps');";
+			stmt.executeUpdate(sql);
+			
 			sql = "CREATE TABLE IF NOT EXISTS Belong"
 					+ "(GameGameID INT NOT NULL,"
-					+ "GenreType VARCHAR(16) NOT NULL,"
-					+ "PRIMARY KEY(GameGameID, GenreType),"
+					+ "GenreGenreID INT NOT NULL,"
+					+ "PRIMARY KEY(GameGameID, GenreGenreID),"
 					+ "CONSTRAINT GameGameID_be FOREIGN KEY(GameGameID) REFERENCES Game(GameID) ON DELETE CASCADE ON UPDATE CASCADE,"
-					+ "CONSTRAINT GenreType_be FOREIGN KEY(GenreType) REFERENCES Genre(Type) ON DELETE CASCADE ON UPDATE CASCADE)"
+					+ "CONSTRAINT GenreGenreID_be FOREIGN KEY(GenreGenreID) REFERENCES Genre(GenreID) ON DELETE CASCADE ON UPDATE CASCADE)"
 					+ "ENGINE=innodb;";
 			stmt.executeUpdate(sql);
 			System.out.println("Created table Belong in the database");
+			
+			sql = "INSERT INTO Belong (GameGameID, GenreGenreID) VALUES (1, 1);";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Belong (GameGameID, GenreGenreID) VALUES (1, 2);";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Belong (GameGameID, GenreGenreID) VALUES (2, 2);";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Belong (GameGameID, GenreGenreID) VALUES (1, 3);";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Belong (GameGameID, GenreGenreID) VALUES (1, 4);";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Belong (GameGameID, GenreGenreID) VALUES (3, 1);";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Belong (GameGameID, GenreGenreID) VALUES (3, 2);";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Belong (GameGameID, GenreGenreID) VALUES (4, 4);";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Belong (GameGameID, GenreGenreID) VALUES (5, 3);";
+			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO Belong (GameGameID, GenreGenreID) VALUES (6, 1);";
+			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE IF NOT EXISTS `Group`"
 					+ "(GroupID INT NOT NULL,"
@@ -196,8 +257,7 @@ public class Database{
 					+ "ENGINE=innodb;";
 			stmt.executeUpdate(sql);
 			System.out.println("Created table Comment in the database");
-			
-			
+
 		}catch (SQLException sqle) {
 			sqle.printStackTrace();
 		} catch (Exception e) {
