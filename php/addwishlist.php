@@ -13,6 +13,8 @@ include_once 'config.php';
       header("Location: ../~$dbusername/game.php?GameID=$game_id");
       }
       else{
+	$sql = "DELETE FROM WishList WHERE UserUserID='$user_id' AND GameGameID='$game_id'";
+        $result = mysqli_query($conn, $sql);
 	header("Location: ../~$dbusername/game.php?GameID=$game_id");
       }
    }
@@ -21,3 +23,5 @@ include_once 'config.php';
     exit();
    }
 ?>
+
+

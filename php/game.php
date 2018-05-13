@@ -18,7 +18,24 @@ if(isset($_GET['GameID'])){
     $rec_no_player = $row['NumberOfPlayers'];
     $rec_sys_req = $row['SystemRequirements'];
     $rec_info = $row['Info'];
+  } 
+  $add = 'Remove WishList';
+  $check = "SELECT * FROM WishList WHERE UserUserID='$user_id' AND GameGameID='$game_id'";
+  $result = mysqli_query($conn, $check);
+  $result_check = mysqli_num_rows($result);
+  if($result_check == 0){
+	$add = 'Add WishList';
   }
+  $b1 = 'Download';
+  $b2 = '';
+  $check = "SELECT * FROM Buy WHERE UserUserID='$user_id' AND GameGameID='$game_id'";
+  $result = mysqli_query($conn, $check);
+  $result_check = mysqli_num_rows($result);
+  if($result_check == 0){
+	$b1 = 'Buy With Card';
+	$b2 = 'Buy With Balance';
+  }
+  
   //Number of pages
   $sql_page = "SELECT Comment, Rating, UserUserID FROM Write_Review ORDER BY Rating DESC";
   $result_page = mysqli_query($conn, $sql_page);
@@ -224,7 +241,7 @@ else{
                     <div class="panel panel-default" style="display: flex-end;justify-content: center;align-items: center">
 		      <form role="form" method="post" action="/~<?php echo $dbusername ?>/addwishlist.php">
                         <button class="btn btn-primary" name = "GameID" value = "<?php echo $game_id?>">
-                          <p class="text" style="font-size:100%">Add Wishlist</p>
+                          <p class="text" style="font-size:100%"><?php echo $add ?></p>
                         </button>
 		      </form>
                     </div>
@@ -243,7 +260,7 @@ else{
                     <div class="panel panel-default" style="display: flex-end;justify-content: center;align-items: center">
                       <form role="form" method="post" action="/~<?php echo $dbusername ?>/buy.php">
                         <button class="btn btn-primary" name = "GameIDCard" value = "<?php echo $game_id?>">
-                          <p class="text" style="font-size:100%">Buy With Card</p>
+                          <p class="text" style="font-size:100%"><?php echo $b1?></p>
                         </button>
                       </form>
                     </div>
@@ -252,7 +269,7 @@ else{
                     <div class="panel panel-default" style="display: flex-end;justify-content: center;align-items: center">
 		      <form role="form" method="post" action="/~<?php echo $dbusername ?>/buy.php">
                         <button class="btn btn-primary" name = "GameID" value = "<?php echo $game_id?>">
-                          <p class="text" style="font-size:100%">Buy With Balance</p>
+                          <p class="text" style="font-size:100%"><?php echo $b2?></p>
                         </button>
 		      </form>
                       <button class="btn btn-primary" style="display:none">

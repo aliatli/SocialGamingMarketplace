@@ -14,12 +14,11 @@ include_once 'config.php';
       $result = mysqli_query($conn, $sql);
       $row = mysqli_fetch_assoc($result);
       $price = $row['Price'];
-      echo $price;
       if($price <= $balance){
         $sql = "INSERT INTO Buy (UserUserID, GameGameID) VALUES('$user_id', '$game_id')";
         $result = mysqli_query($conn, $sql);
 	$newbalance = ((double)$balance) - ((double)$price);
-	$sql = "UPDATE TABLE User SET Balance = '$newbalance' WHERE UserID = '$user_id'";
+	$sql = "UPDATE User SET Balance = '$newbalance' WHERE UserID = '$user_id'";
 	$result = mysqli_query($conn, $sql);
         header("Location: ../~$dbusername/game.php?GameID=$game_id");
       }
@@ -34,9 +33,12 @@ include_once 'config.php';
       $result = mysqli_query($conn, $sql);
       $row = mysql_fetch_assoc($result);
       if(is_null($row['Cvv']) || is_null($row['CardNo']))	
-      	header("Location: ../~$dbusername/store.php");
-      else
+      	header("Location: ../~$dbusername/game.php?GameID=$game_id");
+      else{
+	$sql = "INSERT INTO Buy (UserUserID, GameGameID) VALUES('$user_id', '$game_id')";
+	$result = mysqli_query($conn, $sql);
 	header("Location: ../~$dbusername/game.php?GameID=$game_id");
+      }
      }
    }
    else{

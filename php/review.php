@@ -18,8 +18,8 @@ include_once 'config.php';
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
         $rating = $row['Rating'];
-	$newrating = ($rating + $post_rate) / $count;
-	$sql = "UPDATE TABLE Game SET Rating = '1' WHERE GameID = '$game_id'";
+	$newrating = ($rating*($count-1) + $post_rate) / $count;
+	$sql = "UPDATE Game SET Rating = '$newrating' WHERE GameID = '$game_id';";
 	$result = mysqli_query($conn, $sql);
 	header("Location: ../~$dbusername/game.php?GameID=$game_id");
       }
