@@ -249,7 +249,7 @@ else{
                       echo '<label for="balance" class="col-md-12 col-form-label" style="font-size:120%">Add Balance:</label>';
                       echo '<div class="form-group required">';
                         echo '<div class="col-md-12">';
-                          echo '<input class="form-control" style="font-size:90%" type="text" value="" id="balance" maxlength="16" placeholder="Add Balance" onkeyup="display_add_balance()">';
+                          echo '<input class="form-control" style="font-size:90%" type="text" value="" id="balance" maxlength="16" placeholder="Add Balance" onkeyup="display_add_balance()" name="new_balance">';
                         echo '</div>';
                         echo '<div class="col-md-12" style="margin-top: 2%">';
                           echo '<p class="text" style="font-size:120%" id="display_add_balance"></p>';
@@ -257,7 +257,7 @@ else{
                       echo '</div>';
                       echo '<div class="form-group">';
                         echo '<div class="col-md-6">';
-                          echo '<button type="submit" class="btn btn-primary" onmouseup="add_balance()">Add balance</button>';
+                          echo '<button type="submit" class="btn btn-primary" onmouseup="add_balance()" name="add_balance">Add balance</button>';
                         echo '</div>';
                       echo '</div>';
                     echo '</div>';
