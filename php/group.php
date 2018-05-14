@@ -1,13 +1,11 @@
 <?php
 session_start();
 include_once 'config.php';
-
 if(isset($_GET['GroupID'])){
   $group_id = $_GET['GroupID'];
   $user_id = $_SESSION['UserID'];
   $sql_rec = "SELECT * FROM Grp WHERE Name = '$group_id';";
   $result_get_rec = mysqli_query($conn, $sql_rec);
-
   $_SESSION['UserID'] = $user_id;
   $_SESSION['GameID'] = $game_id;
   if($row = mysqli_fetch_assoc($result_get_rec)){
@@ -15,11 +13,9 @@ if(isset($_GET['GroupID'])){
     $rec_name = $row['Name'];
     $rec_date = $row['CreationDate'];
   }
-
   $sql = "SELECT * FROM Comment WHERE GroupGroupID = '$rec_id';";
   $result2 = mysqli_query($conn, $sql);
   $check = mysqli_num_rows($result2);
-
   $button = 'Join';
   $sql = "SELECT * FROM Member WHERE GroupGroupID = '$rec_id' AND UserUserID = '$user_id'";
   $result = mysqli_query($conn, $sql);
@@ -50,22 +46,18 @@ else{
     .container-fluid {
       margin-top: 25px;
     }
-
     .text {
       word-wrap: break-word;
     }
-
     .btn{
         text-align: center;
         white-space: normal;
         word-wrap: break-word;
         width: 100%;
     }
-
     .button-wrapper .btn {
       margin-top: 3%;
     }
-
     </style>
 
     <title>Group</title>
@@ -139,14 +131,20 @@ else{
       </div>
     </div>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-          <div class="row">
-            <div class="col-md-12" style="border:1px solid black">
-              <p class="text-center" style="font-size:300%">Last 10 Comments</p>
-		<?php
+    <?php
+      $sql_member = "SELECT * FROM Member WHERE UserUserID = $user_id AND GroupGroupID = $rec_id;";
+      $result_member = mysqli_query($conn, $sql_member);
+      $check_member = mysqli_num_rows($result_member);
+
+if($check_member !== 0){
+    echo '<div class="container-fluid">';
+      echo '<div class="row">';
+        echo '<div class="col-md-1"></div>';
+        echo '<div class="col-md-10">';
+          echo '<div class="row">';
+            echo '<div class="col-md-12" style="border:1px solid black">';
+              echo '<p class="text-center" style="font-size:300%">Comments</p>';
+
 		if($check !== 0){
 	   	  while($row = mysqli_fetch_assoc($result2)){
 			$content = $row['Content'];
@@ -156,41 +154,47 @@ else{
 		        echo '<p class="text" style="font-size:150%">';
 		          echo  'Date = ' .$row['Date']. ' ' ;
 		        echo '</p>';
-	          }}?>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-1"></div>
-      </div>
-    </div>
+	          }}
+            echo '</div>';
+          echo '</div>';
+        echo '</div>';
+        echo '<div class="col-md-1"></div>';
+      echo '</div>';
+    echo '</div>';
 
- <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-          <div class="row">
-           <form class="form" role="form" method="post" action="/~<?php echo $dbusername ?>/writecomment.php?GroupID=<?php echo $group_id ?>">
-            <div class="col-md-12" style="border:1px solid black">
-              <div class="form-group required">
-                <label for="write_comment" class="col-md-12 col-form-label" style="font-size:150%">Write Comment:</label>
-                <div class="col-md-12">
-                  <input class="form-control" placeholder="Write comment" rows="3" style="font-size:100%" id="write_comment" name="write_comment">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-5"></div>
-                <div class="col-md-2" style="margin-bottom: 1%;">
-                  <button type="submit" class="btn btn-primary">Send</button>
-                </div>
-                <div class="col-md-5"></div>
-              </div>
-            </div>
-           </form>
-          </div>
-        </div>
-        <div class="col-md-1"></div>
-      </div>
-    </div>
+$sql_write = "SELECT * FROM Comment WHERE UserUserID = $user_id AND GroupGroupID = $rec_id;";
+$result_write = mysqli_query($conn, $sql_write);
+$check_write = mysqli_num_rows($result_write);
+
+ if($check_write === 0){
+ echo '<div class="container-fluid">';
+      echo '<div class="row">';
+        echo '<div class="col-md-4"></div>';
+        echo '<div class="col-md-4">';
+           echo '<form class="form" role="form" method="post" action="/~' . $dbusername . '/writecomment.php?GroupID=' . $group_id . '">';
+            echo '<div class="col-md-12" style="border:1px solid black">';
+              echo '<div class="form-group required">';
+                echo '<label for="write_comment" class="col-md-12 col-form-label" style="font-size:150%">Write Comment:</label>';
+                echo '<div class="col-md-12">';
+                  echo '<input class="form-control" placeholder="Write comment" rows="3" style="font-size:100%" id="write_comment" name="write_comment">';
+                echo '</div>';
+              echo '</div>';
+              echo '<div class="row">';
+                echo '<div class="col-md-5"></div>';
+                echo '<div class="col-md-2" style="margin-bottom: 1%;">';
+                  echo '<button type="submit" class="btn btn-primary">Send</button>';
+                echo '</div>';
+                echo '<div class="col-md-5"></div>';
+              echo '</div>';
+            echo '</div>';
+           echo '</form>';
+        echo '</div>';
+        echo '<div class="col-md-4"></div>';
+      echo '</div>';
+    echo '</div>';
+}
+}
+    ?>
 
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

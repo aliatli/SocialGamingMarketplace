@@ -74,6 +74,14 @@ else{
     .button-wrapper .btn {
       margin-top: 3%;
     }
+    a {
+      text-decoration: none !important;
+    }
+    a:hover {
+      //color: blue;
+      cursor: pointer;
+    }
+
     </style>
 
     <title>Community</title>
@@ -178,11 +186,11 @@ else{
 		  while($row = mysqli_fetch_assoc($result_rating)){
 	            echo '<div class="row">';
 		      echo '<div class="col-md-4">';
-		        echo '<p class="text-left" style="font-size:150%">';
 			 echo '<a href="/~' . $dbusername . '/group.php?GroupID=' . $row['Name'] . '">';
+		        echo '<p class="text-left" style="font-size:150%">';
 		        echo  $row['Name'];
-			 echo '</a>';
 		        echo '</p>';
+			 echo '</a>';
 		      echo '</div>';
 	            echo '</div>';
 		  }
@@ -240,11 +248,11 @@ else{
 		  while($row = mysqli_fetch_assoc($result_rating)){
 	            echo '<div class="row">';
 		      echo '<div class="col-md-4">';
+			 echo '<a href="/~' . $dbusername . '/group.php?GroupID=' . $row['Name'] . '">';
 		        echo '<p class="text-left" style="font-size:150%">';
-			echo '<a href="/~' . $dbusername . '/group.php?GroupID=' . $row['Name'] . '">';
 		        echo  $row['Name'];
 		        echo '</p>';
-			echo '</a>';
+			 echo '</a>';
 		      echo '</div>';
 	            echo '</div>';
 		  }

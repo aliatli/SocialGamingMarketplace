@@ -1,12 +1,10 @@
 <?php
 session_start();
 include_once 'config.php';
-
 if(isset($_SESSION['UserID'])){
   $user_id = $_SESSION['UserID'];
   $group_id = $_GET['GroupID'];
   $write_comment = $_POST['write_comment'];
-
   $sql_rec = "SELECT * FROM Grp WHERE Name = '$group_id';";
   $result_get_rec = mysqli_query($conn, $sql_rec);
   if($row = mysqli_fetch_assoc($result_get_rec)){
@@ -14,7 +12,6 @@ if(isset($_SESSION['UserID'])){
     $rec_name = $row['Name'];
     $rec_date = $row['CreationDate'];
   }
-
   if(empty($group_id) || empty($rec_id) || empty($write_comment)){
     header("Location: ../~$dbusername/store.php");
     exit();
