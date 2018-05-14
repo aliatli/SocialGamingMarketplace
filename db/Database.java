@@ -40,9 +40,9 @@ public class Database{
 					+ "Password VARCHAR(256) NOT NULL,"
 					+ "DateOfBirth DATE NOT NULL,"
 					+ "Balance NUMERIC(8,2) DEFAULT 0 NOT NULL,"
-					+ "CardNo BIGINT,"
+					+ "CardNo VARCHAR(20),"
 					+ "Cvv SMALLINT,"
-					+ "BillingAdress VARCHAR(128),"
+					+ "BillingAddress VARCHAR(128),"
 					+ "PRIMARY KEY (UserID)) ENGINE=innodb;";
 			stmt.executeUpdate(sql);
 			System.out.println("Created table User in the database");
@@ -130,7 +130,7 @@ public class Database{
 			System.out.println("Created table WishList in the database");
 			
 			sql = "CREATE TABLE IF NOT EXISTS Item"
-					+ "(ItemID INT NOT NULL,"
+					+ "(ItemID INT NOT NULL AUTO_INCREMENT,"
 					+ "GameGameID INT NOT NULL,"
 					+ "Name VARCHAR(16) NOT NULL,"
 					+ "Info VARCHAR(16) NOT NULL,"
@@ -153,6 +153,7 @@ public class Database{
 			sql = "CREATE TABLE IF NOT EXISTS Discount_Card"
 					+ "(ItemID INT NOT NULL,"
 					+ "DiscountRate NUMERIC(2,1) NOT NULL,"
+					+ "Code VARCHAR(16) NOT NULL UNIQUE,"
 					+ "PRIMARY KEY(ItemID),"
 					+ "CONSTRAINT ItemID_dc FOREIGN KEY(ItemID) REFERENCES Item(ItemID) ON DELETE CASCADE ON UPDATE CASCADE)"
 					+ "ENGINE=innodb;";
