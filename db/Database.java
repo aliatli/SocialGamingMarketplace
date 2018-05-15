@@ -258,6 +258,12 @@ public class Database{
 					+ "ENGINE=innodb;";
 			stmt.executeUpdate(sql);
 			System.out.println("Created table Comment in the database");
+			
+			sql = "CREATE TRIGGER remove_wishlist"
+					+ "ON Buy AFTER INSERT "
+					+ "AS "
+					+ "DELETE FROM WishList WHERE Buy.UserUserID = WishList.UserUserID AND Buy.GameGameID = WishList.GameGameID";
+			stmt.executeUpdate(sql);
 
 		}catch (SQLException sqle) {
 			sqle.printStackTrace();
