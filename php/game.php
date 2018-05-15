@@ -269,39 +269,58 @@ else{
 		      </form>
                     </div>
                   </div>
-                  <div class="col-md-2">
-                    <label for="discount_card_no" class="col-md-12 col-form-label" style="font-size:100%; margin-top: 3%">Discount Card No:</label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group required">
-                      <div class="col-md-12">
-                        <input class="form-control" style="font-size:100%; margin-top: 3%" type="text" value="" id="discount_card_no" maxlength="20" placeholder="Discount Card No">
-                      </div>
-                    </div>
-                  </div>
+<div class="col-md-1"></div>
 		  <?php
 		    if($result_check === 0){
-                      echo '<div class="col-md-2">';
-                        echo '<div class="panel panel-default" style="display: flex-end;justify-content: center;align-items: center">';
+echo '<div class="col-md-4">';
                           echo '<form role="form" method="post" action="/~' . $dbusername . '/buy.php">';
+
+echo '<div class="row">';
+                  echo '<div class="col-md-6">';
+                    echo '<label for="discount_card_no" class="col-md-12 col-form-label" style="font-size:100%">Discount Card Code:</label>';
+                    echo '<div class="form-group required">';
+                        echo '<input type="text" style="font-size:100%; margin-top: 3%" value="" id="discount_card_no" maxlength="20" placeholder="Discount Card No" name="discount_credit">';
+                    echo '</div>';
+                  echo '</div>';
+
+                      echo '<div class="col-md-6">';
+                        echo '<div class="panel panel-default" style="display: flex-end;justify-content: center;align-items: center">';
                             echo '<button class="btn btn-primary" name = "GameIDCard" value = "' . $game_id . '">';
                               echo '<p class="text" style="font-size:100%">Buy With Card</p>';
                             echo '</button>';
-                          echo '</form>';
+                         
                         echo '</div>';
                       echo '</div>';
-                      echo '<div class="col-md-2">';
-                        echo '<div class="panel panel-default" style="display: flex-end;justify-content: center;align-items: center">';
+echo '</div>';
+ echo '</form>';
+echo '</div>';
+echo '<div class="col-md-1"></div>';
+
+echo '<div class="col-md-4">';
 		          echo '<form role="form" method="post" action="/~' . $dbusername . '/buy.php">';
+echo '<div class="row">';
+                  echo '<div class="col-md-6">';
+                    echo '<label for="discount_card_no" class="col-md-12 col-form-label" style="font-size:100%">Discount Card Code:</label>';
+                    echo '<div class="form-group required">';
+                        echo '<input type="text" style="font-size:100%; margin-top: 3%" value="" id="discount_card_no" maxlength="20" placeholder="Discount Card No" name="discount_balance">';
+                    echo '</div>';
+                  echo '</div>';
+
+                      echo '<div class="col-md-6">';
+                        echo '<div class="panel panel-default" style="display: flex-end;justify-content: center;align-items: center">';
                             echo '<button class="btn btn-primary" name = "GameID" value = "' . $game_id . '">';
                               echo '<p class="text" style="font-size:100%">Buy With Balance</p>';
                             echo '</button>';
-		          echo '</form>';
+
                         echo '</div>';
                       echo '</div>';
+                      echo '</div>';
+
+		          echo '</form>';
+echo '</div>';
 		    }
 		    else{
-		      echo '<div class="col-md-1"></div>';
+		      echo '<div class="col-md-7"></div>';
 		      echo '<div class="col-md-2">';
 		        echo '<div class="panel panel-default" style="display: flex-end;justify-content: center;align-items: center">';
                           echo '<button class="btn btn-primary">';
